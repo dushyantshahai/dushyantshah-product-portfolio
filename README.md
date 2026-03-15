@@ -30,7 +30,7 @@ My edge: I understand both the *why* of a product decision and the *how* of maki
 
 **My role**: End-to-end — problem discovery, product strategy, RAG architecture decisions, UX flows, and shipping.
 
-🔗 [Full case study](./01-core-products/morphed-edtech-platform/) | [Live product](#) | [Architecture overview](./01-core-products/morphed-edtech-platform/ai-architecture.md)
+🔗 [Full case study](./01-core-products/morphed-edtech-platform/) | [Live product](https://aaas-platform-frontend.vercel.app/login) | [Architecture overview](./01-core-products/morphed-edtech-platform/ai-architecture.md)
 
 ---
 
