@@ -3,11 +3,11 @@
 > I build products at the intersection of AI systems and human behaviour.
 > Currently shipping **MorphEd** — a RAG-powered edtech platform for syllabus-grounded MCQ generation.
 
-[![Open to Work](https://img.shields.io/badge/Open%20to-AI%20PM%20Roles-blue?style=flat-square)](https://www.linkedin.com/in/dushyantshah)
+[![Open to Work](https://img.shields.io/badge/Open%20to-AI%20PM%20Roles-blue?style=flat-square)](https://www.linkedin.com/in/dushyantshahpm/)
 [![EdTech](https://img.shields.io/badge/Domain-EdTech%20%7C%20B2C%20%7C%20B2B%20SaaS-green?style=flat-square)](#)
 [![Location](https://img.shields.io/badge/Based%20in-Mumbai%2C%20India-orange?style=flat-square)](#)
 
-📍 Mumbai, India · [LinkedIn](https://www.linkedin.com/in/dushyantshah) · [Email](mailto:dushyantshah.ai@gmail.com)
+📍 Mumbai, India · [LinkedIn](https://www.linkedin.com/in/dushyantshahpm/) · [Email](mailto:dushyant8shah@gmail.com)
 
 ---
 
@@ -63,6 +63,4 @@ My edge: I understand both the *why* of a product decision and the *how* of maki
 
 I'm actively exploring **AI PM** and **Growth PM** roles — early-stage startups to growth-stage product orgs.
 
-If you're building something ambitious with AI and need a PM who can think in systems *and* ship in sprints — [reach out](mailto:dushyantshah.ai@gmail.com).
-
-> *"Strategy without execution is hallucination."*
+If you're building something ambitious with AI and need a PM who can think in systems *and* ship in sprints — [reach out](mailto:dushyant8shah@gmail.com).
