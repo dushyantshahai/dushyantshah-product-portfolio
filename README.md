@@ -13,10 +13,13 @@
 
 ## What I bring
 
-3–5 years building and thinking across product, strategy, and AI tooling.
-I don't just write specs — I prototype, experiment, and ship.
+Senior PM with 7+ years of experience and ~2.5 years building AI-native products — currently at Quantiphi Analytics, where I've driven a 40% increase in AI product engagement, launched 3 GenAI agents, and maintained a 60%+ demo-to-pilot conversion rate with CXO audiences.
 
-My edge: I understand both the *why* of a product decision and the *how* of making it real with modern AI stacks (RAG, LLMs, Claude workflows).
+My toolkit spans both sides of the PM role: on the strategic side — roadmap definition, OKR setting, funnel analysis, A/B testing, and user research. On the technical side — advanced prompt engineering, RAG architecture, LLM evaluation, and hands-on work with Claude and Claude Code.
+
+**MorphEd** is my most complete demonstration of AI PM ownership — an end-to-end B2B SaaS platform built on a RAG pipeline powered by Anthropic Claude, reducing assessment creation time from 2+ hours to under 1 minute for Indian colleges and coaching institutes. Problem discovery, architecture decisions, UX flows, and launch — all mine.
+
+I've built across B2B SaaS, growth consulting, and key accounts — which gives me an unusual ability to connect product decisions to revenue outcomes. MBA from JBIMS. I work best at the intersection of AI systems, growth loops, and cross-functional execution.
 
 ---
 
