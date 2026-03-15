@@ -9,70 +9,86 @@ MorphEd uses a Retrieval-Augmented Generation (RAG) architecture to ensure that 
 ## Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        INGESTION LAYER                          │
-│                                                                 │
-│   Teacher uploads PDF/DOCX                                      │
-│          │                                                      │
-│          ▼                                                      │
-│   Document Parser (PyMuPDF / python-docx)                       │
-│          │                                                      │
-│          ▼                                                      │
-│   Raw Text Extraction + Layout Preservation                     │
-│          │                                                      │
-│          ▼                                                      │
-│   Topic Hierarchy Extractor (Claude — structured output)        │
-│          │                                                      │
-│   Output: JSON topic tree {unit → chapter → subtopic}           │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────────┐
-│                      CHUNKING LAYER                             │
-│                                                                 │
-│   Semantic chunking by topic boundary                           │
-│   Chunk size: ~500 tokens with 50-token overlap                 │
-│   Each chunk tagged with: topic_id, unit, chapter, page_ref     │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────────┐
-│                      EMBEDDING LAYER                            │
-│                                                                 │
-│   Embedding model: text-embedding-3-small (OpenAI)             │
-│   Vector store: Supabase pgvector (hosted Postgres)             │
-│   Each chunk → 1536-dim vector + metadata stored                │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────────┐
-│                      RETRIEVAL LAYER                            │
-│                                                                 │
-│   Teacher selects topic(s) from hierarchy                       │
-│          │                                                      │
-│          ▼                                                      │
-│   Query: embed topic label + retrieve top-k chunks              │
-│   k = 8–12 chunks (tuned via precision/recall experiments)      │
-│          │                                                      │
-│   Metadata filter: restrict retrieval to selected topic_ids     │
-│          │                                                      │
-│   Output: Ranked context passages for generation                │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────────┐
-│                     GENERATION LAYER                            │
-│                                                                 │
-│   LLM: Claude 3.5 Sonnet (primary)                              │
-│   Prompt: System + retrieved context + generation instructions  │
-│          │                                                      │
-│          ▼                                                      │
-│   Structured output: JSON array of MCQ objects                  │
-│   {question, option_a, option_b, option_c, option_d,            │
-│    correct_option, explanation, topic_ref, difficulty}          │
-│          │                                                      │
-│          ▼                                                      │
-│   Output validator (Pydantic schema check)                      │
-│          │                                                      │
-│          ▼                                                      │
-│   MCQ Review UI → Teacher edits/approves → Export               │
-└─────────────────────────────────────────────────────────────────┘
+╔═════════════════════════════════════════════════════════════════════════╗
+║               AaaS PLATFORM — USER FLOWS ARCHITECTURE                   ║
+╚═════════════════════════════════════════════════════════════════════════╝
+
+         ┌──────────────┐    ┌──────────────────┐    ┌──────────────┐
+         │    ADMIN     │    │    PROFESSOR      │    │   STUDENT    │
+         │ System Admin │    │ Educator/Creator  │    │Learner/Taker │
+         └──────────────┘    └──────────────────┘    └──────────────┘
+                │                      │                      │
+                │ ① ②                  │ ⑤ ⑥ ⑦               │ ⑧ ⑨ ⑩
+                ▼                      │                      │
+╔══════════════════════════════════════╪══════════════════════╪══════════╗
+║  MODULE 1 — USER MANAGEMENT SERVICE  │                      │          ║
+╠══════════════════════════════════════╪══════════════════════╪══════════╣
+║  Components:  [ User Profiles ]  [ Batch Management ]       │          ║
+║                                                              │          ║
+║  ①  Manage Users    Create or delete Professor & Student    │          ║
+║                     accounts                                 │          ║
+║  ②  Manage Batches  Create or delete student batches for    │          ║
+║                     organisation                             │          ║
+╚══════════════════════════════════╤══╪══════════════════════╪══════════╝
+                                   │  │                      │
+                                   ▼  │                      │
+╔══════════════════════════════════════╪══════════════════════╪══════════╗
+║  MODULE 2 — CONTENT INGESTION PIPELINE                      │          ║
+╠══════════════════════════════════════╪══════════════════════╪══════════╣
+║  Components:  [ Book Upload (PDF/DOCX) ]  [ TOC Parsing Engine ]       ║
+║                                                              │          ║
+║  ③  Upload Content  Admin uploads textbook into system      │          ║
+║  ④  Extract TOC     System parses book & builds hierarchy   │          ║
+║                                                              │          ║
+║  Output — 4-Level Content Hierarchy:                         │          ║
+║  ┌────────┐    ┌─────────┐    ┌───────┐    ┌───────────┐   │          ║
+║  │  Book  │ ──►│ Chapter │ ──►│ Topic │ ──►│ Sub-topic │   │          ║
+║  │  (L1)  │    │  (L2)   │    │  (L3) │    │   (L4)    │   │          ║
+║  └────────┘    └─────────┘    └───────┘    └───────────┘   │          ║
+╚══════════════════════════════════╤══╪══════════════════════╪══════════╝
+                                   │  │                      │
+                                   ▼  ▼                      ▼
+╔═════════════════════════════════════════════════════════════════════════╗
+║  MODULE 3 — ASSESSMENT ENGINE                                           ║
+╠═════════════════════════════════════════════════════════════════════════╣
+║  Components:  [ Generator ]  [ Publisher ]  [ Exam Execution ]          ║
+║                                                                          ║
+║  Professor Actions:                                                      ║
+║  ⑤  Generate Assessment  Create MCQs from TOC (Chapter / Topic)         ║
+║  ⑥  Manage Assessments   Publish to batches or Unpublish                ║
+║                                                                          ║
+║  Student Actions:                                                        ║
+║  ⑧  Attempt Assessment   Start and progress through published quiz      ║
+║  ⑨  Submit Assessment    Finalise and submit for grading                ║
+╚══════════════════════════════════════════╤══════════════════════════════╝
+                                           │
+                                           ▼
+╔═════════════════════════════════════════════════════════════════════════╗
+║  MODULE 4 — ANALYTICS & REPORTING                                       ║
+╠═════════════════════════════════════════════════════════════════════════╣
+║  Components:  [ Results Engine ]  [ Dashboards ]                        ║
+║                                                                          ║
+║  ┌─────────────────────────────────┐  ┌───────────────────────────────┐ ║
+║  │  PROFESSOR DASHBOARD            │  │  STUDENT DASHBOARD            │ ║
+║  │                                 │  │                               │ ║
+║  │  ⑦  View Analytics             │  │  ⑩  View Results             │ ║
+║  │  •  Batch-level performance     │  │  •  Individual scores         │ ║
+║  │  •  Student-level metrics       │  │  •  Detailed answer review    │ ║
+║  │  •  Topic-level weak areas      │  │  •  Personal topic analytics  │ ║
+║  └─────────────────────────────────┘  └───────────────────────────────┘ ║
+╚═════════════════════════════════════════════════════════════════════════╝
+
+
+  ACTION REFERENCE
+  ─────────────────────────────────────────────────────────────────────
+  ADMIN        ①  Manage Users   ②  Manage Batches   ③  Upload Content
+               ④  Extract TOC
+
+  PROFESSOR    ⑤  Generate Assessment   ⑥  Manage Assessments
+               ⑦  View Analytics
+
+  STUDENT      ⑧  Attempt Assessment   ⑨  Submit Assessment
+               ⑩  View Results
 ```
 
 ---
