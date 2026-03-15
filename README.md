@@ -29,9 +29,17 @@ I've built across B2B SaaS, growth consulting, and key accounts — which gives 
 
 > `RAG` `EdTech` `LLM` `On-demand MCQ generation`
 
-**Problem**: Teachers spend 45+ mins crafting MCQs per topic. Students get generic questions divorced from their actual syllabus.
+**Problem**: Professors creating MCQ assessments today fall into one of three traps:
 
-**What it does**: Ingests a syllabus, maps it to a topic hierarchy, and generates contextually grounded MCQs on demand — in seconds.
+- **Manual creation & paper distribution** — time-intensive, requires pre-planning, and pulls professor attention away from teaching and student development
+- **Using LLMs directly** — uploading book pages with a generic prompt produces hallucination-prone outputs with inconsistent difficulty levels; multiple review and re-edit cycles nullify the time saved
+- **Competitor apps** — generate generic assessments ungrounded in the actual syllabus, still requiring multiple rounds of revision before they're fit to distribute
+
+**What it does**: MorphEd is a truly RAG-based, AI-enabled EdTech platform that ingests an entire textbook, maps it to a 4-level content hierarchy, and empowers professors to generate contextually grounded MCQs on demand — in seconds, with varied difficulty levels and ~95% accuracy. No hard reviews. No re-edits. Beyond assessment creation, MorphEd closes the teaching loop with:
+
+- **Batch-level analytics** — track class-wide performance per assessment
+- **Student-level analytics** — identify individual learning gaps
+- **Topic-level analytics** — pinpoint weak areas and enable targeted teaching interventions
 
 **My role**: End-to-end — problem discovery, product strategy, RAG architecture decisions, UX flows, and shipping.
 
