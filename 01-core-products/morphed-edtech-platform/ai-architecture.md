@@ -97,61 +97,74 @@ MorphEd uses a Retrieval-Augmented Generation (RAG) architecture to ensure that 
 
 ### 1. Document Ingestion & Topic Hierarchy Extraction
 
-**Challenge:** Syllabus PDFs are wildly inconsistent. Some are scanned images. Some have complex table layouts. Some mix Hindi and English. A naive text extraction misses structure.
+**Challenge:** Textbook PDFs are wildly inconsistent — scanned images, complex multi-column layouts, mixed languages. Traditional text extraction tools (PyMuPDF, Tesseract) often lose visual hierarchy cues like font size, bold headings, and page breaks, making it hard to reliably reconstruct the Chapter → Topic → Sub-topic structure.
 
 **Solution:**
-- PyMuPDF handles text-layer PDFs; pytesseract + OpenCV handles scanned docs
-- After raw extraction, Claude is prompted to identify the topic hierarchy using structured output mode (JSON schema enforcement)
-- The hierarchy extraction prompt uses chain-of-thought to handle edge cases like unnumbered sections, appendices, and multi-language syllabi
+- **Vision-Language Ingestion:** Instead of OCR pipelines, the system uses Google Gemini 1.5/3 Flash's native multimodal PDF understanding. The entire document is converted to base64 and sent in a single shot, leveraging Gemini's 1M+ token context window — no page merging or pre-chunking required.
+- **Structured Output Engine:** Gemini is prompted to visually read the document and extract the full topic hierarchy, returning it directly as enforced JSON (`application/json` mode).
+- **Spillover Resolution:** A post-processing step handles edge cases where a topic ends on the same page the next one begins — a common layout quirk in Indian university materials.
 
-**Why Claude for hierarchy extraction (not a regex/NLP approach):** Rule-based parsers fail on the diversity of Indian university syllabus formats. Claude handles ambiguous formatting gracefully and can infer logical structure even when visual structure is absent.
+**Why Gemini Vision over OCR + Claude:** Gemini natively processes visual layout cues (font weight, indentation, page breaks) without preprocessing. This makes it significantly more robust across the diverse formatting conventions found in Indian university syllabi.
 
 ---
 
 ### 2. Chunking Strategy
 
-**Challenge:** Standard fixed-size chunking splits content mid-concept, leading to incoherent retrieval.
+**Challenge:** Fixed-size string chunking splits content mid-concept and mixes distinct topics, causing cross-topic contamination during retrieval and generation.
 
-**Solution:** Semantic chunking aligned to topic boundaries identified in the hierarchy extraction step. If a sub-topic is short (<200 tokens), it's merged with adjacent sub-topics in the same chapter. If it's long (>800 tokens), it's split with overlap at sentence boundaries.
-
-**Metadata tagging** on each chunk ensures that retrieval can be filtered by topic hierarchy — critical for preventing cross-topic contamination in MCQ generation.
-
----
-
-### 3. Embedding & Vector Store
-
-**Model choice:** `text-embedding-3-small` was chosen over `text-embedding-ada-002` (predecessor) for better cost/performance ratio and multilingual support (important for Hindi-medium syllabi). `text-embedding-3-large` was evaluated but offered marginal accuracy gains at 5x the cost.
-
-**Vector store:** Supabase pgvector was chosen over Pinecone or Weaviate for three reasons:
-1. Single infrastructure for both relational data (user accounts, quiz history) and vector search
-2. Row-level security for multi-tenant access control (each teacher's syllabus is isolated)
-3. Lower operational complexity for a solo founder building v1
-
-**Trade-off acknowledged:** Supabase pgvector has known performance ceilings at >1M vectors. If MorphEd scales to millions of syllabus uploads, a dedicated vector DB (Pinecone, Qdrant) becomes the right move.
+**Solution:**
+- **Topic-Aligned Semantic Chunking:** The system chunks text within the exact start and end pages of each Sub-Topic or Topic defined by the hierarchy extraction step — ensuring every chunk is semantically scoped to a specific section of the book.
+- **Proportional Fallback:** Where sub-topic page ranges aren't perfectly bounded, chunks are proportionally distributed across their parent topic and sub-topic, preserving logical alignment.
+- **Sentence-Boundary Splitting:** Text within each semantic boundary is split into ~1,000-character chunks at sentence boundaries (`[.!?]`), keeping contexts readable. Fragments under 50 characters are automatically skipped.
+- **Deep Metadata Tagging:** Every chunk is stored with its precise `chapterId`, `topicId`, and `subTopicId`. This hierarchical metadata is what makes strict topic-level filtering possible at retrieval time.
 
 ---
 
-### 4. Retrieval
+### 3. Retrieval Layer — PostgreSQL Full-Text Search (V1)
 
-**Top-k tuning:** Experiments ran k=5, k=8, k=12, k=15. At k=5, MCQs sometimes missed important context. At k=15, the context window became noisy and hallucination risk increased. k=8–10 emerged as the sweet spot for standard chapter-length topics.
+**Challenge:** Retrieving accurate, topic-scoped context from 1,000+ page textbooks cost-effectively, without the infrastructure overhead of a dedicated vector database at MVP stage.
 
-**Metadata filtering:** Retrieval is always filtered to the teacher-selected topic_ids. This prevents the model from pulling in context from other chapters (which would produce technically valid but out-of-scope questions).
+**Solution:**
+- **No Vector Embeddings in V1:** The current implementation bypasses embedding models and vector databases entirely.
+- **PostgreSQL Full-Text Search:** Native `to_tsvector` / `plainto_tsquery` with `ts_rank` scoring handles lexical retrieval directly within the existing relational database.
+- **Hierarchical SQL Filtering:** Because every chunk is tagged with `chapterId`, `topicId`, and `subTopicId`, retrieval first applies hard SQL filters to narrow the context pool to the exact selected topic before ranking.
 
-**Hybrid retrieval (planned for v2):** Combining dense retrieval (vector similarity) with BM25 keyword search to better handle factual content like definitions, formulas, and proper nouns that may not embed well semantically.
+**Why PostgreSQL FTS over pgvector:** Zero additional infrastructure — relational data and content retrieval share the same database. For exact-domain retrieval (e.g., "Ohm's Law" from the "Electric Currents" sub-topic), keyword search with strict hierarchical filtering is faster, cheaper, and more predictable than semantic embeddings at V1 scale.
+
+**Trade-off acknowledged:** Lexical search struggles with synonyms and implicit context. The `pgvector` schema (1536-dim vector column for OpenAI embeddings) is already prepared and commented out in the migration files. A move to pgvector or a dedicated vector DB (Pinecone, Qdrant) is planned for V2 to enable true semantic retrieval.
+
+---
+
+### 4. Generation & Retrieval Execution
+
+**Challenge:** Ensuring questions stay strictly within the teacher's selected topic without overflowing the token window — while keeping retrieval simple enough to ship quickly.
+
+**Solution:**
+- **Prompt-Based Semantic Filtering (V1):** The system compiles the first 50 chronological chunks from the book and injects the teacher-selected Chapter and Topic titles directly into the LLM prompt as a `FOCUS AREA`. The LLM is instructed to filter context and generate questions solely about that topic.
+- **Context Cap:** The hard limit of 50 chunks provides a large enough context window for the LLM to operate accurately while staying within token limits.
+
+**Planned for V2 — Hybrid Retrieval:** Database-level metadata filtering by `topic_id` combined with dense vector retrieval (embeddings) to fetch the top-k most relevant chunks before passing them to the LLM — reducing hallucination risk and token costs.
 
 ---
 
 ### 5. Generation & Output Validation
 
-**Primary LLM:** Claude 3.5 Sonnet
-- Chosen for its instruction-following reliability, structured output capability, and strong performance on MCQ generation benchmarks run during prototyping
-- System prompt enforces: "Generate questions ONLY from the provided context. Do not use outside knowledge."
+**Primary LLM:** Claude 3 Haiku (`claude-3-haiku-20240307`)
 
-**Structured output:** The generation prompt requests a strict JSON schema. Claude's structured output mode ensures fields are always present and correctly typed, eliminating downstream parsing failures.
+Claude 3 Haiku was chosen for production for its cost-efficiency and fast response times — both critical for high-volume MCQ generation. Performance on structured generation from provided syllabus text is more than sufficient for the use case.
 
-**Pydantic validation:** Every LLM response is validated against a `MCQItem` Pydantic model before being shown to the teacher. Invalid or malformed outputs trigger a single automatic retry before surfacing a graceful error.
+**Prompting Strategy:**
+- The generation prompt instructs Claude to act as an "expert educational assessment designer"
+- Difficulty scaling is instruction-driven: Easy (basic recall) → Medium (application and analysis) → Hard (synthesis and evaluation)
+- The prompt grounds generation with "based on the following content" rather than a hard isolation constraint
 
-**Explanation field:** Every MCQ includes an explanation grounded in the retrieved context. This serves two purposes: (1) pedagogical value for students, and (2) as an indirect signal of generation quality — if the explanation doesn't cite a relevant passage, the question likely has low grounding.
+**Output Validation:**
+- Structured output is requested via prompt engineering (pure JSON array format) rather than native Tool Calling or schema enforcement APIs
+- A custom `validateMCQ` function checks that all required fields are present and that the correct option is exactly `"A"`, `"B"`, `"C"`, or `"D"`
+- Markdown fences (` ```json `) are stripped from the raw response before parsing
+- If parsing fails, the system throws a graceful error — automatic retries are planned for V2
+
+**Explanation Field:** Every MCQ includes a mandatory `explanation` field grounded in the source content. This serves two purposes: pedagogical value for students reviewing mistakes, and an indirect grounding signal — if the model can't justify its answer from the context, it's a strong hallucination indicator.
 
 ---
 
@@ -160,23 +173,25 @@ MorphEd uses a Retrieval-Augmented Generation (RAG) architecture to ensure that 
 | Layer | Technology | Rationale |
 |---|---|---|
 | Frontend | Next.js + Tailwind CSS | Fast iteration, good DX, Vercel deployment |
-| Backend | FastAPI (Python) | Async support, Pydantic integration, easy LLM orchestration |
-| LLM (Generation) | Claude 3.5 Sonnet | Best MCQ quality in prototyping evaluations |
-| LLM (Extraction) | Claude 3 Haiku | Cheaper for high-frequency hierarchy parsing |
-| Embeddings | OpenAI text-embedding-3-small | Cost-effective, multilingual |
-| Vector Store | Supabase pgvector | Unified infra, row-level security |
-| Document Parsing | PyMuPDF, pytesseract | Handles both text-layer and scanned PDFs |
+| Backend | Node.js + Express | Lightweight, fast API layer for V1 |
+| LLM (Generation) | Claude 3 Haiku | Cost-efficient, fast, sufficient for structured MCQ generation |
+| LLM (Extraction) | Google Gemini 1.5/3 Flash | Multimodal vision — natively reads PDF layout without OCR |
+| Retrieval | PostgreSQL Full-Text Search | Zero infra overhead; `to_tsvector` + hierarchical SQL filters |
+| Vector Store | pgvector (prepared, not active) | Schema ready for V2 semantic retrieval upgrade |
+| Database | Supabase (PostgreSQL) | Unified relational + content store, row-level security |
 | Auth | Supabase Auth | Built-in, integrates with DB RLS |
-| Hosting | Vercel (frontend) + Railway (backend) | Low-ops, suitable for v1 scale |
+| Hosting | Vercel (frontend) + Railway (backend) | Low-ops, suitable for V1 scale |
 
 ---
 
 ## Known Limitations & Future Improvements
 
-1. **Scanned PDF quality dependency:** OCR accuracy drops below 85% on low-resolution or handwritten syllabi. Planned fix: image pre-processing pipeline + confidence scoring to flag low-quality extractions.
+1. **Lexical retrieval ceiling:** PostgreSQL FTS works well for exact-domain content but struggles with synonyms and implicit context. Moving to pgvector + dense embeddings in V2 will unlock semantic retrieval and improve accuracy on broader or ambiguous topic queries.
 
-2. **Long-context retrieval degradation:** For syllabi >200 pages, retrieval precision drops. Hierarchical indexing (retrieve at chapter level first, then sub-topic) is the planned mitigation.
+2. **Prompt-based topic filtering:** V1 relies on the LLM to self-filter context by focus area rather than strict database-level metadata filtering. This is effective but less precise — V2 will enforce `topic_id`-level retrieval before passing context to the LLM.
 
-3. **Language support:** Currently optimised for English. Hindi-medium syllabus support is partially functional but not production-ready. Full multilingual support is a v2 commitment.
+3. **No automatic retry on parse failure:** If the LLM returns malformed JSON, the system currently throws a graceful error without retrying. Automatic retry logic with fallback parsing is planned for V2.
 
-4. **No streaming:** MCQ generation currently waits for the full response before displaying. Streaming output with progressive card rendering is on the v2 UX roadmap to reduce perceived latency.
+4. **No streaming output:** MCQ generation waits for the full LLM response before rendering. Streaming with progressive card display is on the V2 UX roadmap to reduce perceived latency.
+
+5. **Hindi-medium support:** Gemini handles multilingual PDFs better than OCR pipelines, but generation quality for Hindi-medium syllabi is not yet production-ready. Full multilingual support is a V2 commitment.
