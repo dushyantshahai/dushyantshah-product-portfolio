@@ -2,11 +2,25 @@
 
 ## The Core Problem
 
-Teachers in India spend an average of **45–90 minutes per assessment** crafting Multiple Choice Questions (MCQs) manually. They cross-reference textbooks, rephrase questions from previous years' papers, and attempt to calibrate difficulty — all without tooling support. The result is slow, inconsistent, and disconnected from students' actual learning context.
+MorphEd addresses the structural inefficiencies and data gaps in educational assessment. Three critical bottlenecks define the problem:
 
-On the student side, the MCQ practice material that does exist is overwhelmingly generic. It's sourced from coaching aggregators, past-paper dumps, or generic test platforms — none of it grounded in what a specific teacher taught, from a specific syllabus, in a specific week.
+**1. The Post-Lecture Feedback Void**
+Professors can't assess students after individual lectures — evaluations are pushed to mid-terms or finals. This means:
+- Dozens of incremental learning checkpoints are missed every semester
+- Knowledge gaps stay hidden until it's too late to address them
+- By the time a student's struggle is identified, the curriculum has already moved on
 
-This gap between **what teachers intend to assess** and **what students actually get to practise** is the central problem MorphEd was built to solve.
+**2. Inefficient & Fragmented Workflows**
+Getting an assessment from concept to student is unnecessarily broken:
+- Manual creation costs professors hours per week
+- Where LLMs are used, they're used in silos — copy-pasted prompts producing de-grounded, inconsistent questions
+- No end-to-end pipeline exists from AI generation to student distribution
+
+**3. The Analytics Blind Spot**
+Even when assessments are completed, the data is rarely actionable:
+- Granular, lecture-level analytics are virtually non-existent
+- Data is trapped in paper, spreadsheets, or fragmented systems
+- Without structured data, institutes cannot intervene before a student fails
 
 ---
 
