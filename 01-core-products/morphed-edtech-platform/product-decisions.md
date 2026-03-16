@@ -1,137 +1,78 @@
 # Product Decisions — MorphEd
 
-A log of key product decisions made during the design and build of MorphEd. Each decision captures the context, the options considered, the choice made, and what we learned.
+A record of the key technical and product choices made while building MorphEd — what was decided, why, and what we were trying to avoid.
 
 ---
 
-## Decision 1: RAG vs. Fine-Tuning for MCQ Generation
+## 1. User Role Segmentation
 
-**Context:** The fundamental architectural question for MorphEd was how to make the LLM generate questions grounded in a specific syllabus rather than general world knowledge. Two approaches were viable.
+**Decision:** Four distinct roles — Admin, Professor, Student, and Founder (Product Owner).
 
-**Options Considered:**
+This wasn't over-engineering. It mirrors how educational institutes actually work, and designing around that structure from day one prevented a lot of permission and access headaches later.
 
-| Dimension | RAG | Fine-Tuning |
-|---|---|---|
-| Syllabus specificity | High — retrieves directly from the document | Medium — model learns patterns, not specific content |
-| Cost | Low inference cost; one-time embedding cost | High upfront training cost; retraining per syllabus update |
-| Latency | Adds retrieval step (~200–400ms) | No retrieval overhead; faster generation |
-| Maintainability | Update the vector store, not the model | Re-fine-tune when syllabus changes |
-| Speed to ship | Fast — no training pipeline needed | Slow — data collection, training, evaluation cycles |
-| Hallucination risk | Lower (grounded in retrieved context) | Higher (model can confuse training examples) |
+- **Admin** handles the infrastructure layer — managing professor and student accounts, uploading books, and setting up batches. They're the operators.
+- **Professor** is where value is created — generating assessments, reviewing outputs, and publishing to student groups.
+- **Student** is where value is consumed — taking assessments and viewing results.
+- **Founder** has a cross-institute view — monitoring platform-wide health, NSM movement, and key metrics across all institutes on the platform.
 
-**Choice Made:** RAG
-
-**Rationale:** Fine-tuning would require high-quality (question, syllabus-chunk, answer) training pairs at scale — data we don't have in v1. More importantly, syllabi change every year. Fine-tuning requires retraining per update, while RAG requires only re-embedding. For a solo founder optimising for speed and maintainability, RAG is the clear winner.
-
-**Outcome:** RAG delivered usable MCQ quality in prototyping within 2 weeks. The retrieval layer also unlocked the topic hierarchy feature — we could filter retrieval by topic_id, which became a product differentiator. Fine-tuning remains a consideration for v3 if we collect enough teacher-validated MCQ data to build a proprietary training set.
+Separating these roles cleanly meant each user sees exactly what they need, nothing more, and the product doesn't try to serve everyone from a single interface.
 
 ---
 
-## Decision 2: On-Demand Generation vs. Pre-Generated Question Banks
+## 2. RAG Architecture over Direct Generation
 
-**Context:** Should MCQs be generated in real-time when the teacher requests them, or should we pre-generate and cache a question bank for each syllabus during upload?
+**Decision:** Chose a RAG (Retrieval-Augmented Generation) pipeline rather than a simple "upload the book, generate questions" approach.
 
-**Options Considered:**
+The simpler route — dump the textbook into a prompt and ask for MCQs — works until it doesn't. Questions start referencing things not in the book, or miss key sections entirely, or produce identical outputs on repeat runs. For an assessment platform, that's a trust problem.
 
-**On-Demand Generation**
-- MCQs generated fresh per teacher request
-- Higher LLM API cost per session
-- Always uses latest model capabilities
-- No storage overhead for pre-generated content
-- Natural "regenerate this question" UX
+RAG solves this in three ways:
 
-**Pre-Generated Bank**
-- Generate 50–100 questions per topic at upload time
-- Lower per-session cost (one-time generation)
-- Questions can go stale if model improves
-- Requires storing and indexing large question banks
-- Harder to personalise (teacher can't steer generation)
-
-**Choice Made:** On-Demand Generation
-
-**Rationale:** Pre-generation optimises for a use case we don't have yet (high-frequency repeat access to the same bank). In v1, most teachers will upload a syllabus and generate once or twice per unit. More importantly, on-demand generation enables the most valuable UX feature: regenerating individual questions and iterating on the output. This feel of "AI as a collaborative partner" is core to teacher trust.
-
-**Outcome:** On-demand generation worked well for v1 scale. At higher usage, per-session LLM cost becomes a concern. The hybrid approach — cache commonly-requested topic combinations while keeping on-demand for novel requests — is the v2 cost optimisation plan.
+- **One-time ingestion:** A book is uploaded and indexed once. After that, any professor can generate assessments from it as many times as they want without re-uploading or re-processing. The infrastructure does the heavy lifting upfront.
+- **Structured TOC:** The ingestion step builds a permanent, navigable table of contents. Professors pick the chapter or topic they want to assess — they're not guessing what the AI will pull.
+- **Grounding:** Questions are generated strictly from the retrieved source material. If it's not in the book, it doesn't end up in the question.
 
 ---
 
-## Decision 3: B2C (Students) vs. B2B (Institutions) Go-to-Market
+## 3. MCQ-Only in V1 ("Objective First" Strategy)
 
-**Context:** Who is the primary customer? There were two viable go-to-market paths.
+**Decision:** Restricted V1 to Multiple Choice Questions only.
 
-**Options Considered:**
+There was a temptation to support short-answer questions, fill-in-the-blanks, and essay-style questions from the start. We pushed that out.
 
-**B2C — Sell to Students**
-- Direct consumer: student pays ₹199–499/month
-- Large addressable market (350M+ students)
-- High CAC via paid acquisition or organic content
-- Short sales cycle
-- Product needs to serve students directly (practice mode, adaptive learning)
-- Risk: price-sensitive market; high churn
+The reason is signal quality. MCQs are objective — there's a right answer, it's instantly verifiable, and the resulting data is structured. When a student gets a question wrong, we know exactly which topic, which chapter, and which difficulty level was the problem. That data feeds directly into analytics.
 
-**B2B — Sell to Institutions (colleges, coaching institutes)**
-- Buyer: HOD or institute director
-- Smaller addressable market but higher ACV (₹20,000–2,00,000/year per institution)
-- Long sales cycle (3–6 months for colleges)
-- Product needs to serve teachers (assessment tool), not students
-- Risk: procurement bureaucracy, slow decision-making
-
-**Choice Made:** B2B-light (bottom-up via teachers, top-down institutional conversion)
-
-**Rationale:** A pure B2C play requires student-facing features (practice mode, performance tracking) that are out of scope for v1. A pure top-down B2B play requires a long sales cycle we can't sustain without funding. The hybrid — start by making individual teachers advocates, then convert at the institutional level — mirrors the PLG motions of tools like Notion and Figma.
-
-**The bet:** If a teacher at a college adopts MorphEd and uses it for 3+ months, they become an internal champion. When we approach the institution for a seat license, the teacher can demonstrate value to the HOD directly.
-
-**Outcome:** Two teachers from the same college in our pilot cohort independently recommended MorphEd to their department. This bottom-up champion pattern confirmed the GTM hypothesis and shaped the referral mechanic in our campus adoption playbook.
+Subjective questions produce richer qualitative insights but introduce grading ambiguity at scale. For V1, where the goal was to prove that assessments could be generated, distributed, and measured end-to-end, MCQs gave the cleanest feedback loop. Subjective types are on the V2 roadmap once the core infrastructure is solid.
 
 ---
 
-## Decision 4: Multimodal Syllabus Support (Text + Image) vs. Text-Only in v1
+## 4. Dual-LLM Strategy — Claude for Generation, Gemini for Ingestion
 
-**Context:** Many Indian university syllabi are scanned PDFs — not text-layer documents. Should v1 support image-based PDFs (requiring OCR), or restrict to text-layer PDFs only?
+**Decision:** Two different models for two different jobs, rather than forcing one model to do both.
 
-**Options Considered:**
+This wasn't a default choice — it was the result of testing both models on both tasks and being honest about where each one wins.
 
-**Text-only (no OCR)**
-- Faster to ship
-- Higher quality for supported documents
-- Clear user communication: "Works best with text-layer PDFs"
-- Excludes a significant portion of Indian university syllabi
+**Claude 3 Haiku for MCQ generation:** Claude is fast, cost-effective, and exceptionally good at following structured output instructions. For a task that runs dozens of times a day — generating JSON arrays of questions with distractors, difficulty tags, and explanations — Haiku hits the right balance of quality and cost without the overhead of a larger model.
 
-**Text + OCR (multimodal)**
-- Broader syllabus support from day one
-- OCR adds latency and cost
-- Quality depends heavily on scan resolution
-- Adds complexity to the ingestion pipeline
-
-**Choice Made:** Text + basic OCR, with quality flagging
-
-**Rationale:** In testing, approximately 40% of syllabi shared by pilot teachers were scanned PDFs. Excluding them would have blocked nearly half the initial user cohort. We implemented basic OCR with a confidence score — if OCR confidence is below a threshold, we show a warning: "This syllabus appears to be a scanned document. Review the extracted topics carefully."
-
-**Outcome:** The warning system worked. Teachers in low-confidence cases spent an extra 30 seconds reviewing the topic hierarchy before generating questions. No teacher reported incorrect MCQs attributed to OCR failure in the pilot. Advanced OCR pre-processing (image denoising, deskewing) is queued for v2.
+**Gemini 1.5/3 Flash for TOC extraction:** This is where Gemini's 1M+ token context window becomes a genuine advantage. Instead of chunking a 400-page textbook and stitching results together, the entire PDF is sent in a single shot. Gemini reads the document visually — picking up on font sizes, bold headings, and layout — and returns a structured hierarchy in one pass. Trying to replicate this with a standard-context model would require a fragile multi-step pipeline. Gemini makes it a single API call.
 
 ---
 
-## Decision 5: Login Required from Session 1 vs. Try-Before-Register
+## 5. Passthrough Revenue Model
 
-**Context:** Should teachers be required to create an account before they can upload a syllabus and generate MCQs?
+**Decision:** Pricing structured as a base platform fee plus token cost passed through to the institute.
 
-**Options Considered:**
+The alternative — absorbing token costs into a flat subscription — looks simpler on the surface. But as usage scales, LLM inference costs become unpredictable. A heavy-use institute generating hundreds of assessments a month should not be subsidised by a light-use one.
 
-**Login Required (Immediate)**
-- Better data capture from the start
-- Enables saved syllabi and quiz history
-- Adds friction to the first session
-- Risk: significant drop-off before the teacher experiences the product
+The passthrough model ties cost to consumption. Institutes pay for what they use. It also puts the professor in a position to make conscious choices about volume and difficulty — higher difficulty levels and longer assessments use more tokens. That transparency is useful, not a burden. And for MorphEd, it means margins stay predictable regardless of how the usage distribution shifts over time.
 
-**Try-Before-Register**
-- No account required for first session (upload → generate → export)
-- Registration prompted only after first successful quiz export
-- Reduces initial friction
-- Risk: harder to retarget anonymous users
+---
 
-**Choice Made:** Try-Before-Register
+## 6. Centralised Authentication with a Global AuthContext
 
-**Rationale:** Teacher scepticism was the #1 risk in adoption. Making them register before experiencing the product's core value (generating good MCQs from their syllabus) adds a gate before the aha moment. By letting them experience the product first, we maximise the chance that registration happens in a moment of demonstrated value: "This actually works, I'll save my account."
+**Decision:** Implemented a global `AuthContext` and `AuthProvider` wrapping the entire application.
 
-**Outcome:** In the pilot, 73% of teachers who completed a quiz export went on to register. Among teachers who hit the registration gate before generating any questions, the conversion rate was 31%. Try-before-register yielded a 2.4x improvement in registration rate — validating the hypothesis.
+In a multi-role SPA (Single Page Application), getting authentication state wrong causes subtle but painful bugs — pages flashing before redirecting, role-specific layouts rendering incorrectly, or users briefly seeing dashboards they shouldn't. These aren't critical failures, but they erode trust in a product quickly.
+
+The global `AuthContext` ensures that from the moment a user logs in or registers, every part of the application — nested routes, layout components, conditional renders — has immediate access to their identity and role. There's no prop drilling, no race condition between route guards and API responses, and no moment where the app is uncertain about who it's serving.
+
+It's the kind of architectural decision that disappears when done right and creates visible problems when skipped.
