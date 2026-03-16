@@ -1,90 +1,101 @@
 # User Personas — MorphEd
 
-## Research Methodology
-
-User research was conducted across two rounds:
-
-**Round 1 — Discovery (5 interviews):** Semi-structured 30-minute interviews with college and coaching institute teachers in Mumbai and Pune. Goal: understand current assessment creation workflow, pain points, and tool usage.
-
-**Round 2 — Validation (8 interviews + 2 usability sessions):** Tested early prototypes with teachers and ran diary studies with students preparing for semester exams. Supplemented with a 47-response screener survey distributed through college WhatsApp groups.
-
-Key insight from research: **teachers are the primary buyers and the primary blockers.** Students are the beneficiaries but don't control tool adoption. This shaped the v1 go-to-market decision to build teacher-first.
-
 ---
 
-## Persona 1 — The Assessment-Burdened Teacher
+## Persona 1 — Institute Admin
 
-**Name:** Priya Nair
-**Role:** Lecturer, B.Sc. Computer Science, Mumbai University affiliated college
-**Age:** 32
-**Tech comfort:** Moderate — uses Google Forms, WhatsApp, YouTube. Doesn't code.
+**Name:** Sunita Joshi
+**Role:** Administrative Coordinator, HSC Coaching Institute, Pune
+**Age:** 38 | **Tech comfort:** Moderate — comfortable with web portals, spreadsheets, and WhatsApp
 
-### Context
-Priya teaches 3 subjects across two batches. Every month she has to set 2 unit tests and 1 internal assessment per subject — that's 9 question papers per month. She spends her weekends on this. She's frustrated, but she doesn't have a better option.
+### User Journey
+- Sunita is the first user to interact with MorphEd at the institute level — she registers the institute, onboards professors and students, and organises content before anyone else can use the platform
+- Her day-to-day role involves managing user accounts, grouping students into batches, maintaining the subject content library, and monitoring institute-wide performance
+- She is not involved in assessment creation or delivery; her role is entirely setup and governance
 
-### Jobs-to-Be-Done
-- **Functional:** Generate accurate, curriculum-aligned MCQs without spending hours on it
-- **Emotional:** Feel confident that the questions are fair and reflect what she actually taught
-- **Social:** Be seen as a thorough, professional teacher whose assessments are respected by students and heads of department
+### Jobs to Be Done
+- Onboard and manage professor and student accounts without IT support
+- Organise the institute's subject library so professors can generate assessments against the right content
+- Group students into batches for assessment distribution and monitor institute-level performance without pulling manual reports
 
 ### Pain Points
-1. **Time sink:** Crafting MCQs manually takes 45–90 minutes per test. Distractors (wrong options) are the hardest part.
-2. **Quality inconsistency:** Questions from previous years' papers may be outdated or misaligned with the current syllabus.
-3. **Generic AI outputs:** She tried ChatGPT once — "it gave me questions about topics I never taught this semester."
-4. **Version management:** Syllabus changes every year; her question bank doesn't update automatically.
-5. **No tooling:** Most affordable tools (Google Forms, Kahoot) require manual question entry — they don't generate.
+- Student records, professor allocations, and batch groupings exist in silos — an Excel sheet, a WhatsApp group, and a physical register — causing duplication and errors
+- No unified view of institute-level performance across subjects and batches makes it impossible to flag underperforming cohorts proactively
+- Most admin tools require IT expertise to configure or carry high licensing costs that small coaching institutes can't justify
 
-### Behavioural Signals (from interviews)
-- Saves old question papers in Google Drive, reuses them with minor edits
-- Shares question papers on WhatsApp groups with colleagues for feedback
-- Prefers WhatsApp and simple web interfaces over desktop software
-- Highly sceptical of AI accuracy — "will it make up answers?"
+### Currently Available Solutions
+- ERP tools like Fedena or Extramarks Admin require IT expertise and significant setup overhead
+- Spreadsheets and WhatsApp groups handle user management informally but break at scale
+- No affordable tool connects user management, content organisation, and performance analytics in a single interface
 
-### What Success Looks Like for Priya
-> *"I upload my syllabus on Monday, select the chapter we finished, and have 20 MCQs ready to review in 5 minutes. I tweak 2–3, download the PDF, and I'm done."*
+### How MorphEd Resolves This
+- A single admin dashboard handles professors, students, and batches — with both manual and CSV bulk onboarding — eliminating the need for separate spreadsheets or tools
+- The Content Library lets Sunita upload subject-specific PDFs with structured chapter/topic hierarchies that directly power professor-created assessments
+- An aggregate analytics dashboard surfaces institute-wide performance without any manual reporting, accessible via a simple web interface with no IT dependency
 
 ---
 
-## Persona 2 — The Exam-Anxious Student
+## Persona 2 — Professor
 
-**Name:** Rohan Mehta
-**Role:** B.Com Year 2, preparing for semester exams + CA Foundation
-**Age:** 20
-**Tech comfort:** High — uses YouTube, Unacademy, Instagram, ChatGPT for study help
+**Name:** Rajan Kulkarni
+**Role:** Faculty, Bookkeeping & Accountancy, Junior College, Mumbai
+**Age:** 44 | **Tech comfort:** Low-to-moderate — uses WhatsApp, Google, and basic web tools
 
-### Context
-Rohan juggles college coursework with CA Foundation prep. He's constantly trying to optimise his study time. He downloads past-paper PDFs, watches YouTube lectures, and quizzes himself using random apps. But nothing he finds is specific to his college's syllabus — his professor uses a custom module, not the standard textbook.
+### User Journey
+- Rajan teaches three batches and runs unit tests every month; he starts on MorphEd after Sunita has set up his account, the subject library, and his assigned batch
+- His primary workflow is assessment creation: select the chapter just finished, configure test parameters, let AI generate questions, review them, and publish directly to his batch
+- Post-assessment, he checks class-level analytics to decide whether to revisit any topic before moving forward
 
-### Jobs-to-Be-Done
-- **Functional:** Practise MCQs that match what his teacher actually covered, not just the broad subject
-- **Emotional:** Reduce exam anxiety by feeling "covered" on the right topics
-- **Social:** Perform well relative to peers in the class — avoid being caught off-guard by unexpected questions
+### Jobs to Be Done
+- Create syllabus-accurate MCQ assessments quickly without spending hours writing questions manually
+- Publish assessments to the right batch instantly and retain control to edit or retract them if needed
+- Access class-level analytics to identify which topics need reinforcement without manual tallying
 
 ### Pain Points
-1. **Syllabus mismatch:** Generic practice apps cover topics his college skipped, or miss topics unique to his module.
-2. **Passive study problem:** Re-reading notes doesn't test retention — he knows he needs active recall but good tools are hard to find.
-3. **Fragmented tools:** He uses 4+ apps for different subjects — no single place for syllabus-specific practice.
-4. **No feedback loop:** After practising, he doesn't know *why* he got questions wrong — just that he did.
+- Writing MCQs manually — especially credible wrong options (distractors) — takes 60–90 minutes per test, consuming evenings and weekends
+- Generic AI tools like ChatGPT produce questions not grounded in his specific textbook, creating misalignment with what was actually taught
+- After assessments, there is no automated performance summary — he manually tallies scores or relies on student self-reporting
 
-### Behavioural Signals (from research)
-- Studies in short bursts (Pomodoro-style) — needs a tool that loads fast and gets him into practice mode immediately
-- Shares good study resources with 5–6 friends on WhatsApp — strong word-of-mouth potential
-- High willingness to pay for tools that "actually help" (~₹200–500/month range)
-- Trusts peer recommendations and YouTube study channels over institutional tools
+### Currently Available Solutions
+- Google Forms and WhatsApp PDFs are the default workflow but require fully manual question entry
+- Kahoot and Quizizz are too gamified for formal assessments and not tied to any specific syllabus
+- LMS platforms like Moodle or Canvas are too complex for small coaching institutes and require institutional IT infrastructure
+- Generic AI tools produce broad-subject content — not scoped to a specific textbook, chapter, or page range
 
-### What Success Looks Like for Rohan
-> *"I open MorphEd, pick Chapter 4 from my actual college syllabus, and get 15 practice MCQs instantly. After I finish, I see which topics I'm weak on. I share it with my study group."*
+### How MorphEd Resolves This
+- The 4-step assessment wizard (Basic Details → Content Selection → Generate Questions → Review & Publish) takes Rajan from zero to a published assessment in under 2 minutes
+- RAG-based generation via Vertex AI retrieves content scoped to the exact chapter, topic, and page range he selects — every question is grounded in what he actually taught
+- Post-submission analytics show class average, score distribution, and per-student rankings automatically — no manual work required
 
 ---
 
-## Relationship Between Personas
+## Persona 3 — Student
 
-MorphEd's v1 flywheel depends on **teachers activating students**, not the reverse:
+**Name:** Manisha Shah
+**Role:** HSC Year 2 (Commerce), Mumbai
+**Age:** 17 | **Tech comfort:** High — daily user of Instagram, YouTube, and study apps
 
-1. Teacher uploads syllabus → generates quiz → shares with class
-2. Students access the quiz → practice → request more
-3. Student demand creates pull for teacher adoption
+### User Journey
+- Manisha receives access to MorphEd after Sunita has enrolled her in a batch; she logs in, sees published assessments, and takes them — no configuration required
+- Her experience is entirely consumption-side: attempt, submit, view results, and track progress over time
+- She has no control over which assessments are available or when they're published, but gets instant feedback after every submission
 
-This teacher-first, student-benefit dynamic is analogous to how Google Classroom or Notion Education operates — the educator is the economic buyer and the distribution channel simultaneously.
+### Jobs to Be Done
+- Complete assessments that reflect exactly what her professor taught, not generic exam prep content
+- Receive immediate, objective feedback after submitting to know where she stands without waiting for manual grading
+- Track performance across subjects over time to direct revision rather than studying everything uniformly
 
-In v2, the roadmap includes a **student-facing self-study mode** where students can directly access their institution's syllabus (if the teacher has shared it) and practise on demand without teacher initiation.
+### Pain Points
+- Most practice apps cover topics not aligned with her college's specific syllabus and module, making practice feel irrelevant
+- After institute tests, she waits days for results — the grading gap creates anxiety and delays any corrective revision
+- No visibility into which topics she is consistently weak on; she studies uniformly with no data to guide prioritisation
+
+### Currently Available Solutions
+- Unacademy, Testbook, and BYJU's serve board exam syllabi — not institute-specific modules
+- Past-paper PDFs from her professor give practice but no feedback or performance tracking
+- YouTube and notes are passive — they don't test retention or identify knowledge gaps
+
+### How MorphEd Resolves This
+- Assessments are built directly from Manisha's actual textbook content — not a generic curriculum — so every question reflects what was taught in her specific class
+- Instant auto-grading on submission eliminates the result wait entirely: she sees her score and per-question correctness breakdown the moment she submits
+- The personal analytics dashboard tracks average score, completion rate, and recent submissions — giving her data to direct revision rather than studying blindly
