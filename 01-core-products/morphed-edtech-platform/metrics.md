@@ -2,78 +2,127 @@
 
 ## North Star Metric
 
-**MCQs Generated per Active Teacher per Week**
+**Assessments Completed per Day**
 
-This metric captures the core value delivered (MCQ generation), filtered for engaged users (active teachers), over a timeframe that reflects habitual use (weekly).
+This metric captures the ultimate value exchange on the platform — every completion represents a student actively learning and a professor successfully gathering assessment data. It is the single number that moves when both supply (professors generating and publishing) and demand (students attempting and submitting) are healthy.
 
 Why this is the right NSM:
-- It moves when teachers are genuinely using the product for assessment creation, not just signing up
-- It's sensitive to both product quality (teachers return when MCQs are good) and product scope (more topics → more generation events)
-- It directly correlates with the pain point solved: teachers currently spend 45–90 minutes per quiz; each generation event represents time reclaimed
+- It only moves when the full loop closes — generation, publishing, and student completion
+- It is equally sensitive to supply-side failures (professors not generating or publishing) and demand-side failures (students not attempting or completing)
+- It directly reflects MorphEd's core value proposition: assessments that are good enough to be used, and engaging enough to be completed
 
-**Target at 6 months:** ≥ 12 MCQs generated per active teacher per week (equivalent to 1 complete quiz per topic, per week)
+---
+
+## NSM Metric Tree
+
+```
+                    ┌─────────────────────────────────┐
+                    │         NSM (Level 0)            │
+                    │   Assessments Completed / Day    │
+                    └────────────┬────────────────────-┘
+                                 │
+               ┌─────────────────┴──────────────────┐
+               │                                    │
+   ┌───────────▼────────────┐          ┌────────────▼───────────┐
+   │     L1-1: Supply        │          │     L1-2: Demand        │
+   │  Assessments Published  │          │   Avg. Completions /    │
+   │         / Day           │          │      Assessment         │
+   └───────────┬─────────────┘          └────────────┬───────────┘
+               │                                     │
+    ┌──────────┼──────────┐               ┌──────────┼──────────┐
+    │          │          │               │          │          │
+┌───▼───┐ ┌───▼───┐ ┌────▼────┐     ┌───▼───┐ ┌───▼───┐ ┌────▼────┐
+│ L2-1  │ │ L2-2  │ │  L2-3   │     │ L2-4  │ │ L2-5  │ │  L2-6   │
+│ Asses-│ │  Gen  │ │ Unique  │     │ Start │ │ Start │ │  Avg.   │
+│ ments │ │  →    │ │  Profs  │     │ Rate  │ │  →    │ │ Student │
+│ Gen / │ │ Pub   │ │ Generat-│     │       │ │Submit │ │  Score  │
+│  Day  │ │ Rate  │ │ ing/Day │     │       │ │ Rate  │ │         │
+└───────┘ └───────┘ └─────────┘     └───────┘ └───────┘ └─────────┘
+```
+
+### Level 1 — Input Metrics
+
+- **L1-1 Supply (Published / Day):** Measures how much fresh content is being added to the platform. More published assessments = more opportunities for students to participate.
+- **L1-2 Demand (Completions / Assessment):** Measures the pull of each assessment. A published assessment with zero completions means the supply is ineffective.
+
+### Level 2 — Product Levers
+
+**Supply side:**
+- **L2-1 Generated / Day:** Raw output of the RAG engine — measures AI efficiency and professor activity
+- **L2-2 Generation → Publish Rate:** How much of the AI output meets professor standards without requiring re-generation
+- **L2-3 Unique Professors Generating / Day:** Growth of the content creator base
+
+**Demand side:**
+- **L2-4 Assessment Start Rate:** Measures the hook of the assessment — title, subject relevance, student motivation
+- **L2-5 Start → Submit Rate:** Measures friction in the assessment-taking interface
+- **L2-6 Average Student Score:** Indirect signal of assessment difficulty calibration and content quality
 
 ---
 
 ## OKRs — First 6 Months
 
-### Objective 1: Prove that MorphEd creates genuine time value for teachers
+### Objective 1: Prove that MorphEd creates genuine time value for professors
 
 | Key Result | Target |
 |---|---|
-| Average MCQ generation time (upload-to-export) < 5 minutes | ≤ 5 min median |
-| % of generated quizzes exported (vs. abandoned) | ≥ 65% |
-| Teacher retention at Week 4 (generated at least 1 quiz in week 4) | ≥ 40% |
+| Average book upload & TOC creation time | ≤ 5 min median |
+| Average MCQ generation time (book selection → ready questions & options) | < 2 min median |
+| % of generated assessments published by professor | ≥ 80% |
+| Teacher retention at Week 4 (generated ≥ 2 assessments in 4 weeks) | ≥ 50% |
 
-### Objective 2: Establish a base of habitual teacher users
+### Objective 2: Establish a base of habitual professor users
 
 | Key Result | Target |
 |---|---|
-| Monthly Active Teachers (generated ≥ 1 quiz in the past 30 days) | 200 MAT by month 6 |
-| Week-over-week active teacher growth rate | ≥ 10% MoM |
-| Net Promoter Score (NPS) among weekly active teachers | ≥ 40 |
+| Monthly Active Teachers (generated ≥ 3 assessments in 4 weeks) | 50 MAT by end of month 3 |
+| Week-over-week active teacher growth rate | ≥ 25% WoW* |
+| Net Promoter Score (NPS) among active teachers | ≥ 70 |
+
+*Derived from the 50 MAT target: reaching 50 MAT by week 13 from a cold start (~2 active teachers at week 1) requires a WoW growth rate of approximately 28%. Target set at ≥ 25% to account for early ramp-up variability.
 
 ### Objective 3: Validate MCQ quality as a durable product strength
 
 | Key Result | Target |
 |---|---|
-| % of generated MCQs marked as "acceptable without edits" by teachers | ≥ 70% |
-| Average teacher quality rating for generated MCQs | ≥ 4.0 / 5.0 |
-| Hallucination rate (questions referencing out-of-syllabus content) | ≤ 3% |
-
-### Objective 4: Build the foundation for institutional monetisation
-
-| Key Result | Target |
-|---|---|
-| Number of colleges with ≥ 3 active teachers on MorphEd | ≥ 10 colleges |
-| Number of institutional pilot conversations initiated | ≥ 5 |
-| Teacher-referred teacher signups | ≥ 30% of new teacher registrations |
+| % of generated assessments published after 1 generation (no re-generation required) | ≥ 70% |
+| Average teacher quality rating for generated MCQs | ≥ 3.0 / 5.0 |
+| Hallucination rate (questions referencing out-of-syllabus content) | ≤ 5% |
 
 ---
 
 ## Funnel Metrics
 
+The MorphEd platform has two user funnels that must both be healthy for the NSM to grow — the **professor funnel** (supply) and the **student funnel** (demand).
+
+### Professor Funnel (Supply)
+
 ```
-Syllabus Uploaded
-      ↓
-Topic Hierarchy Reviewed (Activation)
-      ↓
-First MCQ Batch Generated (Aha Moment)
-      ↓
-Quiz Exported (Value Realised)
-      ↓
-Return Visit Within 7 Days (Retention)
-      ↓
-Second Syllabus Uploaded OR Colleague Referred (Expansion)
+Book Uploaded by Admin
+        ↓
+TOC Generated & Hierarchy Reviewed  ← Activation
+        ↓
+First Assessment Generated           ← Aha Moment
+        ↓
+Assessment Published to Batch        ← Value Realised
+        ↓
+Return Generation Within 7 Days      ← Retention
+        ↓
+≥ 3 Assessments Generated in 4 Weeks ← Habitual Use (MAT definition)
 ```
 
-| Funnel Stage | v1 Baseline | 6-Month Target |
-|---|---|---|
-| Upload → Hierarchy reviewed | 82% | 85% |
-| Hierarchy reviewed → MCQs generated | 74% | 80% |
-| MCQs generated → Quiz exported | 61% | 70% |
-| Quiz exported → Return within 7 days | 38% | 50% |
-| Return user → Referral or second syllabus | 22% | 35% |
+### Student Funnel (Demand)
+
+```
+Assessment Published (available to student)
+        ↓
+Assessment Started                   ← Activation
+        ↓
+Assessment Submitted                 ← Value Realised (NSM event)
+        ↓
+Results Viewed                       ← Feedback loop
+        ↓
+Next Assessment Attempted            ← Retention
+```
 
 ---
 
@@ -83,44 +132,8 @@ These metrics exist to ensure we don't optimise the NSM at the expense of qualit
 
 | Guardrail | Threshold | Alert Condition |
 |---|---|---|
-| MCQ hallucination rate | ≤ 3% | > 5% in any weekly cohort |
-| Teacher edit rate per MCQ | Monitor for trend | Sudden increase suggests quality drop |
+| MCQ hallucination rate | ≤ 5% | > 5% in any weekly cohort |
+| Teacher edit rate per MCQ | Monitor for trend → arrive at benchmark | Sudden spike suggests quality drop |
 | Generation failure rate (API errors, malformed output) | ≤ 2% | > 3% in any 24-hour window |
-| Avg time to first MCQ generation | ≤ 5 min | > 7 min median in any week |
-| Support tickets about incorrect questions | Track for trend | > 5 tickets/week |
 
-The hallucination guardrail is the most important. A single teacher using incorrect MCQs in a formal assessment creates reputational damage that's hard to recover from in a trust-sensitive domain like education.
-
----
-
-## How Success Would Be Measured at Scale
-
-At 10,000+ active teachers (12–18 months), the metrics framework evolves:
-
-**Revenue metrics enter the picture:**
-- MRR (Monthly Recurring Revenue)
-- Average Revenue per Institution (ARPI) for B2B accounts
-- Payback period on CAC by acquisition channel
-
-**Quality metrics become statistical:**
-- MCQ quality sampling (random 2% of generated questions reviewed by internal QA)
-- A/B testing framework for prompt improvements with power calculations
-
-**Network effects become measurable:**
-- Viral coefficient (teachers referred per active teacher per month)
-- Campus density metric (% of teachers at a given institution who are active users)
-
-**Retention cohorts replace activation rates:**
-- D7, D30, D90 retention by cohort
-- "Power user" cohort analysis (top 20% by MCQ volume drive what % of total output?)
-
----
-
-## Data Infrastructure Required
-
-To track these metrics reliably:
-
-1. **Event tracking:** Mixpanel or Amplitude for funnel analysis and cohort retention
-2. **LLM quality logging:** Store all generation inputs/outputs + teacher feedback (thumbs, edits) for quality analysis
-3. **Feedback pipeline:** Weekly review of flagged questions to inform prompt updates
-4. **Usage dashboard:** Internal Metabase or Retool dashboard for weekly metric review by the founding team
+The hallucination guardrail is the most important. A single professor using incorrect MCQs in a formal assessment creates reputational damage that is hard to recover from in a trust-sensitive domain like education. The teacher edit rate is currently being tracked to establish a baseline — once a trend is visible, a benchmark threshold will be set and added here.
