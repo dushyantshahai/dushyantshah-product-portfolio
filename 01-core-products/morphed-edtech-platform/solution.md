@@ -12,11 +12,19 @@ The product removes two manual tasks that consume the most teacher time: (1) par
 
 ### Flow 1 — Admin
 
-- Add and delete professor accounts from the Professors management page
-- Add and delete students individually (form) or in bulk (CSV upload) from the Students management page
-- Create and delete student batches (cohorts) and assign students to batches
-- Manage the Content Library: add/delete subjects, upload subject-specific books (PDF + TOC), and manage the chapter/topic hierarchy within each book
-- View aggregate, institute-level analytics dashboard
+```
+Login → Admin Dashboard
+        ↓
+Professors: Add professor accounts (name, email, password) / Delete professors
+        ↓
+Students: Add students individually (form) or bulk (CSV upload) / Delete students
+        ↓
+Batches: Create batches (name, academic year) → Assign students to batches / Delete batches
+        ↓
+Content Library: Add/delete subjects → Upload books (PDF + TOC) → Manage Chapter/Topic hierarchy
+        ↓
+Analytics: View aggregate institute-level performance dashboard
+```
 
 ### Flow 2 — Professor
 
