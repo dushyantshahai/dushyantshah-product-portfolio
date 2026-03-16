@@ -26,15 +26,21 @@ Even when assessments are completed, the data is rarely actionable:
 
 ## Jobs-to-Be-Done (JTBD) Framing
 
-### Teacher JTBD
-> *"When I need to create a unit test or weekly quiz, I want to generate accurate, syllabus-specific MCQs quickly, so I can spend more time on teaching and less time on administrative prep."*
+### Professor JTBD
 
-The functional job is speed and accuracy. The emotional job is confidence — teachers want to know the questions are pedagogically sound, not cherry-picked from a random bank. The social job is credibility: assessments reflect on them professionally.
+> *"When I finish a lecture, I want to quickly assess whether my students actually understood it — without spending hours creating and distributing a quiz — so I can identify who needs help before the next class, not after the semester exam."*
+
+- **Functional job:** Generate a grounded, lecture-specific assessment in minutes and get it in front of students the same day
+- **Emotional job:** Confidence that the assessment reflects exactly what was taught — not a generic question bank — and that the data coming back is reliable enough to act on
+- **Social job:** Be seen as a thorough, data-informed educator who doesn't let students fall behind unnoticed
 
 ### Student JTBD
-> *"When I'm preparing for my board exam or internal assessment, I want to practise questions that match exactly what my teacher covered, so I don't waste time on out-of-scope content."*
 
-The functional job is exam readiness. The emotional job is reducing anxiety — targeted practice feels less overwhelming than open-ended study. The social job is competitive performance relative to peers.
+> *"When I finish a lecture, I want to know immediately whether I've actually understood the concepts — so I can address gaps now, not discover them during the exam."*
+
+- **Functional job:** Attempt topic-specific assessments tied to what was just taught, and see where understanding broke down
+- **Emotional job:** Reduce exam anxiety by knowing exactly which areas need attention, rather than feeling broadly underprepared
+- **Social job:** Keep pace with peers and avoid being the student who gets caught off guard in class or on results day
 
 ---
 
