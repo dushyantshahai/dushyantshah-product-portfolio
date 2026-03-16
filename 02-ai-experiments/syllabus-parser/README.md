@@ -4,9 +4,7 @@
 
 Syllabi are the foundational document of every educational experience — they define what students must learn and what teachers must assess. Yet they exist almost exclusively as **unstructured PDFs with no machine-readable topic structure.**
 
-A syllabus might have 14 units, 60 chapters, and 200+ sub-topics. But this information is locked in a human-readable layout: inconsistent numbering, mixed heading styles, multi-column layouts, scanned pages, and typographic inconsistencies that differ between universities, departments, and even individual teachers.
-
-This creates a real problem for any EdTech tool that wants to be syllabus-aware. Before you can build RAG-based MCQ generation, adaptive learning, or topic-level recommendations, you need a reliable, structured representation of what the syllabus actually contains.
+A syllabus might have 14 units, 60 chapters, and 200+ sub-topics — all locked in inconsistent numbering, mixed heading styles, scanned pages, and typographic quirks that vary between universities, departments, and individual teachers. Before you can build RAG-based MCQ generation, adaptive learning, or topic-level recommendations, you need a reliable structured representation of what the syllabus actually contains.
 
 The Syllabus Parser solves this: it takes a raw, unstructured syllabus PDF and outputs a clean, machine-readable topic hierarchy.
 
@@ -74,7 +72,7 @@ Stage 2 — Table of Contents Detection
   → If yes: use as primary structure source + verify with body text
   → If no: infer structure from heading patterns in body text
           ↓
-Stage 3 — Claude Structured Extraction
+Stage 3 — Gemini 2.0 Flash Preview Structured Extraction
   Prompt: "Extract the complete topic hierarchy from this syllabus.
   Output a JSON object with units, chapters, and sub-topics.
   Use the exact titles as they appear in the document."
@@ -100,7 +98,7 @@ Output: JSON topic hierarchy + confidence score + flags
 
 | Layer | Technology |
 |---|---|
-| LLM | Claude 3 Haiku (cost-optimised for high-frequency extraction) |
+| **LLM** | **Gemini 2.0 Flash Preview** |
 | OCR | pytesseract + OpenCV (image pre-processing) |
 | PDF parsing | PyMuPDF (text-layer), pdf2image (scanned) |
 | Output schema | Pydantic v2 with nested models |
@@ -108,7 +106,10 @@ Output: JSON topic hierarchy + confidence score + flags
 | Backend | FastAPI (shared with MorphEd) |
 | Storage | Supabase (syllabus + parsed hierarchy storage) |
 
-**Why Claude Haiku for extraction (not Sonnet)?** The extraction task is structured and repetitive — it doesn't require deep reasoning, just reliable schema adherence. Haiku handles this at 10x lower cost than Sonnet, making it viable for parsing every syllabus upload without significant API spend.
+**Why Gemini 2.0 Flash Preview?** Syllabus parsing demands a model that can hold an entire textbook in context without losing structural coherence mid-document. Gemini 2.0 Flash Preview was chosen for three reasons:
+- **Very large context window (1M tokens)** — handles long, formatting-heavy documents without chunking or context loss
+- **Native multimodal parsing** — reads both text-layer and scanned PDFs/DOCX files directly, eliminating the need for a separate OCR pre-processing step in most cases
+- **High structured extraction accuracy** — consistently adheres to JSON schema output on complex, nested hierarchies across diverse document formats
 
 ---
 
@@ -135,17 +136,18 @@ The Syllabus Parser is not a standalone product — it's the ingestion layer of 
 
 ## Key Learnings
 
-**1. Table of contents is the single best signal — when it exists.**
-When a syllabus has a ToC, using it as the primary structure source and cross-validating with the body text yields near-perfect extraction. The challenge: only ~55% of the syllabi tested had a ToC. For the rest, heading inference is necessary.
+**1. Table of contents is the single best signal — but not deep enough on its own.**
+The ToC captures top-level chapter titles reliably, but rarely reflects content depth at topic and sub-topic levels. To solve this, the TOC parser was built to read each page and identify headers, bullet points, and start/end pages across all levels — producing a true full-book hierarchy rather than relying on the document's own ToC alone.
 
-**2. Indian university syllabi have surprisingly diverse formatting conventions.**
-Mumbai University, Pune University, and state board syllabi use fundamentally different numbering conventions, heading hierarchies, and layout styles. There is no universal template. The parser had to be flexible enough to handle: numbered (1.1, 1.2), lettered (A, B, C), Roman numeral (I, II, III), and unnumbered (heading-only) structures — sometimes mixed within the same document.
+**2. Different books approved by the same university have surprisingly diverse formatting conventions.**
+There is no universal template — even within a single university's approved book list. The parser had to handle all of the following, sometimes mixed within the same document:
+- Numbered structures (1.1, 1.2), lettered (A, B, C), Roman numeral (I, II, III), and unnumbered heading-only layouts
 
-**3. Claude is better at hierarchy inference than rule-based systems — but needs examples.**
-Early versions of the extraction prompt produced flat lists when the syllabus had ambiguous hierarchies. Adding few-shot examples of correct hierarchy extraction (showing the difference between a chapter-level and sub-topic-level heading in similar documents) improved accuracy from 74% to 91%.
+**3. Gemini 2.0 Flash Preview is better at hierarchy inference than rule-based systems — but needs examples.**
+Early extraction prompts produced flat lists when syllabi had ambiguous hierarchies. Adding few-shot examples that illustrated the distinction between chapter-level and sub-topic-level headings improved accuracy from 74% to 91% — showing that model capability and prompt design are jointly responsible for output quality.
 
-**4. The human review interface is essential — and reveals a lot about trust.**
-Teachers who received a parsed hierarchy and immediately trusted it (no review) had a higher rate of downstream MCQ quality complaints. Teachers who reviewed and made small corrections felt more ownership over the output and rated final MCQs higher — even when the corrections were minor. The review step isn't just a quality gate; it's a trust-building ritual.
+**4. Human review across all three user roles is essential for confidence and reliability.**
+Embedding review interfaces at each role's workflow — Admin reviewing parsed book hierarchies in the Content Library, Professors editing generated MCQs before publishing, Students checking per-question results — produced significantly greater trust in AI outputs across the board. Each touchpoint acts as a role-specific quality gate, making the end-to-end system more reliable than any single centralised review step.
 
 **5. Confidence scoring changes teacher behaviour positively.**
 Showing "extraction confidence: 94%" vs. a blank confidence indicator had a clear effect: teachers treated low-confidence extractions with appropriate scepticism. Counterintuitively, showing confidence scores increased overall satisfaction because it set expectations accurately — teachers knew when to review carefully and when to trust the output.
