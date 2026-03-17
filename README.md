@@ -65,18 +65,6 @@ Small prototypes exploring AI product ideas — proof of curiosity and technical
 
 ---
 
-## 🔍 Product Teardowns
-
-Strategic breakdowns of AI and consumer products — UX, growth loops, monetisation, and moats.
-
-| Teardown | Focus |
-|---|---|
-| [ChatGPT](./03-product-teardowns/teardown-chatgpt.md) | Retention loops, model switching UX, monetisation |
-| [Duolingo](./03-product-teardowns/teardown-duolingo.md) | Gamification, streak mechanics, EdTech growth |
-| [Notion AI](./03-product-teardowns/teardown-notion-ai.md) | AI feature adoption, product-led growth |
-
----
-
 ## 📈 Growth Playbooks
 
 Frameworks and strategies for EdTech growth — GTM, activation, and retention.
@@ -114,7 +102,7 @@ Documented trade-offs and choices made while building — the thinking behind th
 
 | Signal | Where to look |
 |---|---|
-| Product thinking | MorphEd case study + teardowns |
+| Product thinking | MorphEd case study |
 | AI fluency | RAG architecture + `05-ai-workflows/` |
 | Experimentation mindset | `decision-logs/` + `02-ai-experiments/` |
 | Growth orientation | `04-growth-playbooks/` |
@@ -140,7 +128,6 @@ dushyantshah-product-portfolio/
 │       ├── metrics.md
 │       └── roadmap.md
 ├── 02-ai-experiments/
-├── 03-product-teardowns/
 ├── 04-growth-playbooks/
 ├── 05-ai-workflows/
 │   └── skills/
