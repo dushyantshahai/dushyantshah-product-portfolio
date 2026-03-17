@@ -25,12 +25,12 @@ Senior Product Manager with 7+ years of experience including ~2.5 years of dedic
 
 ## AI Project — 0→1 Build
 
-### [MorphEd — Assessment as a Service](../01-core-products/morphed-edtech-platform/)
+### [MorphEd — Assessment as a Service](../02-core-products/morphed-edtech-platform/)
 *0→1 AI-Native B2B SaaS Platform*
 
 Owned end-to-end development of MorphEd from ideation to MVP launch. Leveraging Antigravity IDE, Claude, and Gemini, I engineered a RAG engine that slashes assessment creation time by 95% with 90%+ syllabus accuracy. This AI-native workflow enabled rapid delivery of a multi-tenant architecture and intelligent knowledge bases — automating high-precision MCQ generation and eliminating manual grading delays, modernising the assessment lifecycle for thousands of students.
 
-→ [Full case study](../01-core-products/morphed-edtech-platform/) · [AI architecture](../01-core-products/morphed-edtech-platform/01-ai-architecture.md) · [Product decisions](../01-core-products/morphed-edtech-platform/04-product-decisions.md)
+→ [Full case study](../02-core-products/morphed-edtech-platform/) · [AI architecture](../02-core-products/morphed-edtech-platform/01-ai-architecture.md) · [Product decisions](../02-core-products/morphed-edtech-platform/04-product-decisions.md)
 
 ---
 
