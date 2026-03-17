@@ -71,9 +71,9 @@ Frameworks and strategies for EdTech growth — GTM, activation, and retention.
 
 | Playbook | Description |
 |---|---|
-| [EdTech GTM Strategy](./04-growth-playbooks/edtech-gtm-strategy.md) | Go-to-market for institution-facing EdTech products |
-| [Campus Adoption Loops](./04-growth-playbooks/campus-adoption-loops.md) | Viral and referral mechanics for campus rollout |
-| [Activation Playbook](./04-growth-playbooks/activation-playbook.md) | First-session activation for AI-powered tools |
+| [EdTech GTM Strategy](./03-growth-playbooks/edtech-gtm-strategy.md) | Go-to-market for institution-facing EdTech products |
+| [Campus Adoption Loops](./03-growth-playbooks/campus-adoption-loops.md) | Viral and referral mechanics for campus rollout |
+| [Activation Playbook](./03-growth-playbooks/activation-playbook.md) | First-session activation for AI-powered tools |
 
 ---
 
@@ -83,10 +83,10 @@ Reusable Claude SKILL.md docs and prompt frameworks for product work — built a
 
 | Workflow | What it does |
 |---|---|
-| [PRD Generator](./05-ai-workflows/skills/prd-generator/SKILL.md) | Generates structured PRDs from a problem brief |
-| [Market Research Agent](./05-ai-workflows/skills/market-research/SKILL.md) | Synthesises competitive landscape and user insights |
-| [Product Teardown Prompt](./05-ai-workflows/skills/product-teardown/SKILL.md) | Structured teardown of any product |
-| [Feature Prioritisation](./05-ai-workflows/skills/feature-prioritisation/SKILL.md) | RICE/ICE scoring with AI-assisted rationale |
+| [PRD Generator](./04-ai-workflows/skills/prd-generator/SKILL.md) | Generates structured PRDs from a problem brief |
+| [Market Research Agent](./04-ai-workflows/skills/market-research/SKILL.md) | Synthesises competitive landscape and user insights |
+| [Product Teardown Prompt](./04-ai-workflows/skills/product-teardown/SKILL.md) | Structured teardown of any product |
+| [Feature Prioritisation](./04-ai-workflows/skills/feature-prioritisation/SKILL.md) | RICE/ICE scoring with AI-assisted rationale |
 
 ---
 
@@ -94,7 +94,7 @@ Reusable Claude SKILL.md docs and prompt frameworks for product work — built a
 
 Documented trade-offs and choices made while building — the thinking behind the product, not just the output.
 
-→ [View decision logs](./decision-logs/)
+→ [View decision logs](./05-decision-logs/)
 
 ---
 
@@ -103,9 +103,9 @@ Documented trade-offs and choices made while building — the thinking behind th
 | Signal | Where to look |
 |---|---|
 | Product thinking | MorphEd case study |
-| AI fluency | RAG architecture + `05-ai-workflows/` |
-| Experimentation mindset | `decision-logs/` + `02-ai-experiments/` |
-| Growth orientation | `04-growth-playbooks/` |
+| AI fluency | RAG architecture + `04-ai-workflows/` |
+| Experimentation mindset | `05-decision-logs/` + `02-ai-experiments/` |
+| Growth orientation | `03-growth-playbooks/` |
 | Execution | Live product + shipped prototypes |
 
 ---
@@ -128,10 +128,10 @@ dushyantshah-product-portfolio/
 │       ├── metrics.md
 │       └── roadmap.md
 ├── 02-ai-experiments/
-├── 04-growth-playbooks/
-├── 05-ai-workflows/
+├── 03-growth-playbooks/
+├── 04-ai-workflows/
 │   └── skills/
-└── decision-logs/
+└── 05-decision-logs/
 ```
 
 ---
