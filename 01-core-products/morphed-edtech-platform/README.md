@@ -1,8 +1,6 @@
 # MorphEd — AI-Powered Assessment Platform
 
-> Full product case study coming soon.
-
-This folder contains the complete product case study for MorphEd, documented as a PM would: problem framing, user research, product decisions, AI architecture, experiments, metrics, and roadmap.
+A B2B SaaS platform that automates MCQ assessment generation for Indian educational institutes using RAG-based AI. Built end-to-end: problem framing, AI architecture, user research, and go-to-market.
 
 ## Files in this folder
 
@@ -13,7 +11,6 @@ This folder contains the complete product case study for MorphEd, documented as 
 | `solution.md` | Product design, core flows, UX decisions |
 | `ai-architecture.md` | RAG pipeline, LLM choices, technical architecture |
 | `product-decisions.md` | Key trade-offs and decision rationale |
-| `experiments.md` | What was tested, what was learned |
 | `metrics.md` | North star metric, OKRs, success criteria |
 | `roadmap.md` | What was built, what comes next and why |
 
