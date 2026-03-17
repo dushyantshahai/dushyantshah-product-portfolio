@@ -49,7 +49,7 @@ I've built across B2B SaaS, growth consulting, and key accounts — which gives 
 - Context-grounded MCQ generation with difficulty tuning
 - On-demand and batch generation modes
 
-🔗 [Full case study](./01-core-products/morphed-edtech-platform/) · [Live product](#) · [AI architecture](./01-core-products/morphed-edtech-platform/ai-architecture.md)
+🔗 [Full case study](./01-core-products/morphed-edtech-platform/) · [AI architecture](./01-core-products/morphed-edtech-platform/01-ai-architecture.md)
 
 ---
 
@@ -59,9 +59,9 @@ Small prototypes exploring AI product ideas — proof of curiosity and technical
 
 | Project | What it does |
 |---|---|
-| [AI Study Companion](./02-ai-experiments/ai-study-companion/) | Conversational study planner grounded in syllabus context |
-| [Lecture Summariser](./02-ai-experiments/lecture-summariser/) | Turns lecture transcripts into structured revision notes |
-| [AI Syllabus Parser](./02-ai-experiments/syllabus-parser/) | Extracts and maps topics from raw syllabus documents |
+| [AI Study Companion](./02-ai-experiments/01-ai-study-companion/) | Conversational study planner grounded in syllabus context |
+| [AI Syllabus Parser](./02-ai-experiments/02-syllabus-parser/) | Extracts and maps chapter/topic hierarchy from textbook PDFs |
+| [ClearSign Prototype Spec](./02-ai-experiments/03-clearsign-prototype-spec/) | AI-powered document signing and verification prototype |
 
 ---
 
@@ -71,9 +71,9 @@ Frameworks and strategies for EdTech growth — GTM, activation, and retention.
 
 | Playbook | Description |
 |---|---|
-| [EdTech GTM Strategy](./03-growth-playbooks/edtech-gtm-strategy.md) | Go-to-market for institution-facing EdTech products |
-| [Campus Adoption Loops](./03-growth-playbooks/campus-adoption-loops.md) | Viral and referral mechanics for campus rollout |
-| [Activation Playbook](./03-growth-playbooks/activation-playbook.md) | First-session activation for AI-powered tools |
+| [EdTech GTM Strategy](./03-growth-playbooks/03-edtech-gtm-strategy.md) | Go-to-market for institution-facing EdTech products |
+| [Campus Adoption Loops](./03-growth-playbooks/02-campus-adoption-loops.md) | Top-down B2B onboarding mechanics for campus rollout |
+| [Activation Playbook](./03-growth-playbooks/01-activation-playbook.md) | First-session activation design for AI-powered tools |
 
 ---
 
@@ -85,7 +85,6 @@ Reusable Claude SKILL.md docs and prompt frameworks for product work — built a
 |---|---|
 | [PRD Generator](./04-ai-workflows/skills/prd-generator/SKILL.md) | Generates structured PRDs from a problem brief |
 | [Market Research Agent](./04-ai-workflows/skills/market-research/SKILL.md) | Synthesises competitive landscape and user insights |
-| [Product Teardown Prompt](./04-ai-workflows/skills/product-teardown/SKILL.md) | Structured teardown of any product |
 | [Feature Prioritisation](./04-ai-workflows/skills/feature-prioritisation/SKILL.md) | RICE/ICE scoring with AI-assisted rationale |
 
 ---
@@ -98,6 +97,22 @@ Documented trade-offs and choices made while building — the thinking behind th
 
 ---
 
+## 📄 Resume
+
+→ [View full resume](./06-resume/)
+
+**Dushyant Shah** — Senior Product Manager with 7+ years of experience, ~2.5 years in AI product management.
+
+| | |
+|---|---|
+| **Current role** | Senior PM (AI Products) — Quantiphi Analytics |
+| **AI project** | MorphEd — 0→1 AI-native B2B SaaS (RAG-powered MCQ assessment platform) |
+| **Key metrics** | 40% AI product engagement growth · 60%+ demo-to-pilot conversion · 229% app adoption |
+| **Education** | MBA (Marketing) — JBIMS · BMS — St. Andrew's College, Mumbai |
+| **Contact** | dushyant8shah@gmail.com · +91-9619369240 |
+
+---
+
 ## What this portfolio demonstrates
 
 | Signal | Where to look |
@@ -107,6 +122,7 @@ Documented trade-offs and choices made while building — the thinking behind th
 | Experimentation mindset | `05-decision-logs/` + `02-ai-experiments/` |
 | Growth orientation | `03-growth-playbooks/` |
 | Execution | Live product + shipped prototypes |
+| Background | `06-resume/` |
 
 ---
 
@@ -118,20 +134,36 @@ dushyantshah-product-portfolio/
 ├── README.md
 ├── 01-core-products/
 │   └── morphed-edtech-platform/
-│       ├── README.md
-│       ├── problem.md
-│       ├── users.md
-│       ├── solution.md
-│       ├── ai-architecture.md
-│       ├── product-decisions.md
-│       ├── experiments.md
-│       ├── metrics.md
-│       └── roadmap.md
+│       ├── 00-README.md
+│       ├── 01-ai-architecture.md
+│       ├── 02-metrics.md
+│       ├── 03-problem.md
+│       ├── 04-product-decisions.md
+│       ├── 05-roadmap.md
+│       ├── 06-solution.md
+│       └── 07-users.md
 ├── 02-ai-experiments/
+│   ├── 01-ai-study-companion/
+│   ├── 02-syllabus-parser/
+│   └── 03-clearsign-prototype-spec/
 ├── 03-growth-playbooks/
+│   ├── 01-activation-playbook.md
+│   ├── 02-campus-adoption-loops.md
+│   └── 03-edtech-gtm-strategy.md
 ├── 04-ai-workflows/
 │   └── skills/
-└── 05-decision-logs/
+│       ├── feature-prioritisation/
+│       ├── market-research/
+│       └── prd-generator/
+├── 05-decision-logs/
+│   ├── 001-user-role-segmentation.md
+│   ├── 002-rag-architecture.md
+│   ├── 003-mcq-only-v1.md
+│   ├── 004-dual-llm-strategy.md
+│   ├── 005-passthrough-revenue-model.md
+│   └── 006-centralised-auth-context.md
+└── 06-resume/
+    └── README.md
 ```
 
 ---
