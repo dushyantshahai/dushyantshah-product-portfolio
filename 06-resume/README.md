@@ -3,7 +3,7 @@
 **AI Products & Growth | B2B SaaS | Cross-Functional Execution**
 MBA (Marketing) — Jamnalal Bajaj Institute of Management Studies (JBIMS)
 
-📧 dushyant8shah@gmail.com · 📞 +91-9619369240 · [LinkedIn](https://www.linkedin.com/in/dushyantshah) · [GitHub](https://github.com/dushyantshahai) · 📍 Mumbai, India
+📧 dushyant8shah@gmail.com · 📞 +91-9619369240 · [LinkedIn](https://www.linkedin.com/in/dushyantshahpm/) · [GitHub](https://github.com/dushyantshahai) · 📍 Mumbai, India
 
 ---
 
