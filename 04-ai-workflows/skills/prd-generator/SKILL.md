@@ -1,7 +1,7 @@
 # SKILL: PRD Generator
 
 **Name:** prd-generator
-**Version:** 1.0
+**Version:** 1.1
 **Author:** Dushyant Shah
 **Description:** Generates a structured Product Requirements Document (PRD) from a brief problem statement or feature idea. Designed for PMs who need to go from rough brief to shareable spec quickly.
 
@@ -26,9 +26,9 @@ Do not invoke this skill if the user is asking for analysis, research, or strate
 Before generating the PRD, ask for the following if not already in the user's message. Ask all questions in one message — do not ask them one by one:
 
 1. **Product / feature name:** What are we building?
-2. **User:** Who is the primary user? (Role, context, level of technical sophistication)
+2. **User:** Which role(s) does this affect? (For MorphEd: Admin, Professor, Student, or Founder — see role context in Generation Instructions)
 3. **Problem:** What specific problem does this solve? What's the user's current workaround?
-4. **Context:** Any constraints? (Technical, resource, timeline, regulatory)
+4. **Context:** Any constraints? (Technical, resource, timeline, token cost sensitivity)
 5. **Success:** How will we know it worked? Any initial metric intuition?
 
 If the user has already provided this information, skip Step 1 and proceed directly to generation.
@@ -48,40 +48,44 @@ Produce a complete PRD in the following structure. Do not skip sections. Do not 
 **Status:** Draft
 **Last Updated:** [Today's date]
 **Target Launch:** [If provided, otherwise TBD]
+**Roles Affected:** [Admin / Professor / Student / Founder — list all that apply]
 
 ---
 
 ## 1. Problem Statement
 
-[2–3 sentences. What is the user trying to do? What is broken or missing today? What is the cost of the status quo?]
+[2–3 sentences. What is the user trying to do? What is broken or missing today? What is the cost of the status quo? Be specific about role, task, and pain — avoid vague language like "users struggle with".]
 
 ## 2. Objective
 
-[One sentence. What does this feature/product achieve for the user and the business?]
+[One sentence. What does this feature achieve for the affected user(s) and for the product's North Star Metric?]
 
 ## 3. User Personas
 
-### Primary User
-**Who:** [Role, context]
-**JTBD:** "When I [situation], I want to [motivation], so that [outcome]."
-**Current workaround:** [How they solve this today]
-**Pain with current workaround:** [What's frustrating about it]
+[For each affected role, complete the block below. Use only the roles that apply — do not include roles that have no direct interaction with this feature.]
 
-### Secondary User (if applicable)
-[Same format as above]
+### [Role: Admin / Professor / Student / Founder]
+**Who:** [Brief description of this role's context in MorphEd — see Generation Instructions]
+**JTBD:** "When I [situation], I want to [motivation], so that [outcome]."
+**Current workaround:** [How they handle this today]
+**Pain with current workaround:** [What's frustrating or costly about it]
+
+### [Second role if applicable]
+[Same format]
 
 ## 4. Success Metrics
 
 | Metric | Type | Target | Measurement Method |
 |---|---|---|---|
-| [Primary metric] | [Leading/Lagging] | [Value] | [How to measure] |
-| [Secondary metric] | [Guardrail] | [Value] | [How to measure] |
+| [Primary metric] | Leading | [Value] | [How to measure] |
+| [Secondary metric] | Lagging | [Value] | [How to measure] |
+| [Guardrail metric] | Guardrail | [Value] | [How to measure] |
 
-**North Star Metric:** [Single metric that best captures value delivered]
+**NSM Connection:** [How does this feature move "Assessments Completed per Day"? Name the specific L1 or L2 lever it affects. If it doesn't directly move the NSM tree, label it as: Retention / Hygiene / Guardrail Protection.]
 
 ## 5. Functional Requirements
 
-[Numbered list of what the product/feature must do. Use "must", "should", "could" to indicate priority (MoSCoW). Be specific — each requirement should be testable.]
+[Numbered list of what the product/feature must do. Each requirement must be testable — no vague statements.]
 
 ### Must Have
 - FR-1: [Requirement]
@@ -95,15 +99,16 @@ Produce a complete PRD in the following structure. Do not skip sections. Do not 
 
 ## 6. Non-Functional Requirements
 
-- **Performance:** [e.g., page load < 2s, API response < 500ms]
-- **Reliability:** [e.g., 99.9% uptime, graceful degradation]
-- **Security:** [e.g., data isolation, auth requirements]
-- **Scalability:** [e.g., must handle X concurrent users]
-- **Accessibility:** [e.g., WCAG 2.1 AA compliance]
+- **Generation latency:** [If this feature involves LLM calls — e.g., "MCQ generation must complete within 60 seconds of topic selection"]
+- **LLM API failure handling:** [Expected behaviour if Claude or Gemini returns an error — graceful message, retry logic, fallback]
+- **Token cost impact:** [Does this feature add new LLM calls? Estimate token delta per operation. Flag if material.]
+- **Role-based data isolation:** [Confirm no cross-institute data can be exposed. Specify any new access control requirements.]
+- **Mobile responsiveness:** [Required for V2 mobile roadmap — specify if this feature needs mobile-first consideration]
+- **Performance:** [Non-LLM performance requirements — e.g., page load, API response time]
 
 ## 7. User Flow
 
-[Step-by-step description of the primary user journey from trigger to value realised. Use numbered steps. No wireframes required — describe the experience in plain language.]
+[Step-by-step primary user journey from trigger to value realised. Use numbered steps. Describe the experience in plain language — no wireframes required.]
 
 1. [Step 1]
 2. [Step 2]
@@ -115,7 +120,7 @@ Produce a complete PRD in the following structure. Do not skip sections. Do not 
 
 ## 8. Out of Scope
 
-[Explicitly list what this PRD does NOT include. This is as important as what it does include.]
+[Explicitly list what this PRD does NOT include. Prevents scope creep.]
 
 - [Out-of-scope item 1]
 - [Out-of-scope item 2]
@@ -130,7 +135,7 @@ Produce a complete PRD in the following structure. Do not skip sections. Do not 
 ## 10. Dependencies & Risks
 
 **Dependencies:**
-- [What this feature depends on: other teams, APIs, data, infrastructure]
+- [What this feature depends on — e.g., Claude Haiku API, Gemini Flash API, Supabase schema changes, RAG pipeline, existing content hierarchy]
 
 **Risks:**
 | Risk | Likelihood | Impact | Mitigation |
@@ -139,24 +144,69 @@ Produce a complete PRD in the following structure. Do not skip sections. Do not 
 
 ## 11. Appendix (Optional)
 
-[Any supporting research, competitive context, or design references worth linking]
+[Supporting research, competitive context, or design references worth linking]
 ```
 
 ---
 
 ## Generation Instructions
 
-When filling in the template:
+### MorphEd Role Context (Pre-Loaded)
 
-- **Problem Statement:** Be specific about the user's pain. Avoid vague language like "users struggle with" — instead write "users currently spend [X time/effort] on [Y task] using [Z method], which results in [negative outcome]."
+When writing a PRD for a MorphEd feature, use this role reference to populate the User Personas section accurately:
 
-- **Success Metrics:** Always include at least one leading metric (behaviour-based) and one lagging metric (outcome-based). Include at least one guardrail metric that would indicate harm if the feature degrades it.
+| Role | Who they are | Primary job in MorphEd |
+|---|---|---|
+| **Admin** | Institute administrative coordinator | Manages professor and student accounts, uploads textbooks, creates batches, monitors institute-level analytics. Operates the infrastructure layer — not the teaching layer. |
+| **Professor** | Faculty member | Generates MCQ assessments using the RAG pipeline, reviews and edits AI-generated questions, publishes to batches, tracks student and class performance via analytics. |
+| **Student** | Enrolled learner | Receives and attempts assessments, submits, views auto-graded results and personal analytics. Passive recipient of what Admin and Professor configure. |
+| **Founder** | Product owner / platform operator | Cross-institute visibility — monitors NSM (Assessments Completed per Day), platform health, and key metrics across all institutes. Not a typical daily user of any one feature. |
 
-- **Functional Requirements:** Write each requirement as a testable statement. Bad: "The interface should be user-friendly." Good: "The system must display extracted topics within 60 seconds of document upload."
+Most features affect one primary role and one secondary role. Rarely all four. When in doubt: Admin features unlock capabilities for Professors; Professor features create supply for Students; Student features drive the demand side of the NSM.
 
-- **Out of Scope:** This section prevents scope creep. If the user hasn't specified, suggest 2–3 items that might naturally be requested but aren't in the spec.
+### Success Metrics — NSM Anchor
 
-- **Open Questions:** Generate real open questions based on ambiguities in the brief. Don't ask trivial questions; ask the questions a PM would raise in a spec review meeting.
+Every PRD must include an explicit "NSM Connection" statement. Apply this logic:
+
+- **Does the feature help professors generate or publish more assessments faster?** → Moves L1-1 Supply (Assessments Published / Day). Identify which L2 lever: Generated/Day (L2-1), Gen→Publish Rate (L2-2), or Unique Professors Generating (L2-3).
+- **Does the feature help students start or complete more assessments?** → Moves L1-2 Demand (Completions / Assessment). Identify the L2 lever: Start Rate (L2-4), Start→Submit Rate (L2-5), or Average Score (L2-6).
+- **Does the feature not directly move the NSM tree?** → Label it explicitly as Retention, Hygiene, or Guardrail Protection. Examples: reducing hallucination rate (Guardrail), improving load time (Hygiene), sending re-engagement notifications (Retention). These are valid features — they just need to be categorised correctly so they don't crowd out NSM-driving work in prioritisation.
+
+Always include at least one leading metric (behaviour-based), one lagging metric (outcome-based), and one guardrail metric (something that would signal harm if the feature degrades it).
+
+### Non-Functional Requirements — MorphEd Defaults
+
+Replace generic boilerplate with MorphEd-relevant defaults. Specifically:
+
+- **Generation latency** is the most user-visible NFR for professor-facing features. The target is < 60 seconds from topic selection to displayed MCQs. Any feature that adds steps to this path must specify its latency budget.
+- **Token cost** should be estimated for any feature that introduces a new LLM call. Claude 3 Haiku and Gemini Flash are cost-efficient but at scale (hundreds of assessments/day across institutes) new calls compound quickly. Flag the delta.
+- **Role-based data isolation** is non-negotiable. No feature should expose data across institute boundaries. Any new API endpoint or query must be checked against this constraint.
+- **WCAG 2.1 AA compliance** is not a default NFR for MorphEd. The product is B2B SaaS sold to Indian institutes with no regulatory accessibility mandate in V1. Include it only if there is a specific reason.
+- **Mobile responsiveness** is increasingly relevant — the V2 roadmap includes a native mobile app. Any new UI should be built responsively unless explicitly scoped for desktop-only.
+
+### Functional Requirements — Testability Standard
+
+Write each requirement as a testable statement. Bad: "The interface should be user-friendly." Good: "The system must display a professor's generated MCQs within 60 seconds of submitting a topic selection." Every "Must Have" requirement should have a clear pass/fail condition — if you can't write a test for it, rewrite it until you can.
+
+### Open Questions — MorphEd Recurring Questions
+
+In addition to feature-specific open questions, surface any of the following that are unresolved for the spec in question:
+
+- **Role access:** Are there any roles that should NOT see this feature, or that require a permission gate?
+- **RAG pipeline impact:** Does this feature change how content is ingested, chunked, retrieved, or how prompts are constructed? If yes, retrieval quality and LLM output format must be re-validated.
+- **Token cost delta:** Does this feature introduce any new LLM calls? If yes, what is the estimated cost per operation and per institute per month?
+- **Content hierarchy impact:** Does this feature require changes to the Book → Chapter → Topic → Sub-topic structure, or to how assessments map to content nodes?
+- **Data isolation check:** Does any new API endpoint or database query need an institute-scoping filter to prevent cross-institute data exposure?
+
+Not all questions apply to every feature. Only include the ones that are genuinely unresolved — don't pad the Open Questions table with noise.
+
+### Out of Scope — Default Prompt
+
+If the user hasn't specified out-of-scope items, suggest 2–3 that naturally follow from the feature. For MorphEd features, common deferred items include: non-MCQ question types, mobile app version (if desktop-first), multi-language support, LMS integration, and advanced analytics cuts. Use the V1 "Explicitly Out of Scope" list from the PRD as a reference for what was deferred product-wide.
+
+### Problem Statement — Specificity Standard
+
+Avoid vague language. Bad: "Professors struggle with creating assessments." Good: "Professors currently spend 2+ hours per assessment manually writing MCQs from textbooks — searching for relevant content, writing distractors, and checking difficulty balance by hand. MorphEd reduces this to under 5 minutes, but [specific remaining friction point] still requires [manual step], adding [X minutes] back to the workflow."
 
 ---
 
