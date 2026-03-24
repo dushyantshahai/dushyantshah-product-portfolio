@@ -211,3 +211,4 @@ If you're building something ambitious with AI and need a PM who can think in sy
 > *"Strategy without execution is hallucination."*
 
 ---
+DEBUG_CHANGE 
