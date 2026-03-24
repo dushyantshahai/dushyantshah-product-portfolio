@@ -89,6 +89,29 @@ Reusable Claude SKILL.md docs and prompt frameworks for product work — built a
 
 ---
 
+## 🧑‍💻 Vibe Coding Skills
+
+A production-grade reference library for building AI-powered products — distilled from real shipping experience building MorphEd and other AI products.
+
+> `26 skill documents` · `Production-ready code patterns` · `Security guardrails` · `AGENT_CONTEXT.md system`
+
+26 structured skill documents covering the complete AI product development stack. Each document contains the mental models, step-by-step build instructions, security guardrails, common patterns, and debugging loops for one specific domain — designed to be fed directly to an AI coding agent (Claude Code, Cursor, Codex) at the start of a session.
+
+**What makes it different from generic tutorials:** Every skill ends with a `🗂️ Update Your AGENT_CONTEXT.md` callout — a template of the exact architectural decisions made while implementing that skill. As you work through skills, you populate a single `AGENT_CONTEXT.md` at the root of your project. Every future coding session starts by feeding this file to the agent, giving it full memory of every prior decision. No more re-debating already-resolved architecture.
+
+| Category | Skills Covered |
+|---|---|
+| **AI-Specific** | RAG (re-ranking, evaluation, HyDE), prompt engineering, agent design, safety guardrails, model selection, single vs. multi-agent |
+| **Backend** | Architecture (background jobs, connection pooling), API routes, database & storage, auth & authorization, agentic workflows, API integrations |
+| **Frontend** | Architecture, UI components, AI streaming UI, responsive design |
+| **DevOps** | Deployment & hosting, environment variables & secrets, monitoring & observability |
+| **Testing** | Testing strategy, automated testing, debugging & error handling |
+| **Product** | Documentation (AGENT_CONTEXT.md), UX design, analytics & experimentation, growth & distribution |
+
+🔗 [Browse all 26 skills](./07-vibe-coding-skills/) · [Quick start & Claude Project setup](./07-vibe-coding-skills/02-CLAUDE_PROJECT_SETUP.md) · [Standalone repo](https://github.com/dushyantshahai/vibe-coding-skills)
+
+---
+
 ## 📋 Decision Logs
 
 Documented trade-offs and choices made while building — the thinking behind the product, not just the output.
@@ -119,6 +142,7 @@ Documented trade-offs and choices made while building — the thinking behind th
 |---|---|
 | Product thinking | MorphEd case study |
 | AI fluency | RAG architecture + `05-ai-workflows/` |
+| Technical depth | `07-vibe-coding-skills/` — 26 production skill docs covering the full AI product stack |
 | Experimentation mindset | `06-decision-logs/` + `03-ai-experiments/` |
 | Growth orientation | `04-growth-playbooks/` |
 | Execution | Live product + shipped prototypes |
@@ -157,13 +181,23 @@ dushyantshah-product-portfolio/
 │       ├── feature-prioritisation/
 │       ├── market-research/
 │       └── prd-generator/
-└── 06-decision-logs/
-    ├── 001-user-role-segmentation.md
-    ├── 002-rag-architecture.md
-    ├── 003-mcq-only-v1.md
-    ├── 004-dual-llm-strategy.md
-    ├── 005-passthrough-revenue-model.md
-    └── 006-centralised-auth-context.md
+├── 06-decision-logs/
+│   ├── 001-user-role-segmentation.md
+│   ├── 002-rag-architecture.md
+│   ├── 003-mcq-only-v1.md
+│   ├── 004-dual-llm-strategy.md
+│   ├── 005-passthrough-revenue-model.md
+│   └── 006-centralised-auth-context.md
+└── 07-vibe-coding-skills/
+    ├── 01-README.md
+    ├── 02-CLAUDE_PROJECT_SETUP.md
+    ├── 03-vibe-coder-assistant-system-prompt.md
+    ├── ai-specific/          (6 skills)
+    ├── backend/              (6 skills)
+    ├── devops/               (3 skills)
+    ├── frontend/             (4 skills)
+    ├── product/              (4 skills)
+    └── testing/              (3 skills)
 ```
 
 ---
@@ -175,3 +209,5 @@ I'm actively exploring **AI PM** and **Growth PM** roles — early-stage startup
 If you're building something ambitious with AI and need a PM who can think in systems *and* ship in sprints — [reach out](mailto:dushyantshah.ai@gmail.com).
 
 > *"Strategy without execution is hallucination."*
+
+---
