@@ -1,3 +1,9 @@
+ * Project: Dushyant Shah Product Portfolio
+ * Author: Dushyant Shah
+ * GitHub: https://github.com/dushyantshahai
+ * This code is part of a public portfolio and is not licensed for reuse.
+ * © 2026 Dushyant Shah
+---
 # Decision Logs — MorphEd
 
 A running record of significant product and technical decisions made while building MorphEd. Each log captures the context, options evaluated, the choice made, the rationale, and — where enough time has passed — the outcome and honest reflection.
