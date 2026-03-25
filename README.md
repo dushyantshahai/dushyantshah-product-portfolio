@@ -1,3 +1,9 @@
+## License
+
+This repository is licensed under CC BY-NC 4.0.
+
+© 2026 Dushyant Shah. All rights reserved.
+---
 # Dushyant Shah — AI Product Manager
 
 **Product Manager | 7+ years | 2.5+ years in AI products**
@@ -204,3 +210,16 @@ If you're building something ambitious with AI and need a PM who can **think dee
 ---
 
 > *"Strategy without execution is hallucination."*
+> ## Usage & Intellectual Property
+
+This repository is publicly shared as part of my professional portfolio for recruiters, product leaders, and founders.
+
+It showcases original work across product thinking, system design, and AI-enabled applications.
+
+While you are welcome to explore and learn from the content:
+
+- Attribution is required for any references
+- Commercial or production use of this work is not permitted
+- Reuse of code, architecture, or product concepts without permission is prohibited
+
+If you'd like to collaborate or discuss usage, feel free to reach out.
