@@ -1,8 +1,14 @@
-# ClearSign – AI Prototyping Spec & Product Document
+ * Project: Dushyant Shah Product Portfolio
+ * Author: Dushyant Shah
+ * GitHub: https://github.com/dushyantshahai
+ * This code is part of a public portfolio and is not licensed for reuse.
+ * Â© 2026 Dushyant Shah
+---
+# ClearSign â€“ AI Prototyping Spec & Product Document
 
 ## Product Overview
 
-**ClearSign** is a Manifest V3 Chrome extension that automatically detects legal agreements—such as Terms of Service, End User License Agreements (EULA), and Privacy Policies—visible in the browser DOM. It generates AI-powered summaries with risk scoring, distilled into plain English for maximum clarity. 
+**ClearSign** is a Manifest V3 Chrome extension that automatically detects legal agreementsâ€”such as Terms of Service, End User License Agreements (EULA), and Privacy Policiesâ€”visible in the browser DOM. It generates AI-powered summaries with risk scoring, distilled into plain English for maximum clarity. 
 
 ### Target Audiences
 1. **Privacy-Conscious Power Users**: Seeking detailed legal insights and implications.
@@ -134,10 +140,10 @@ erDiagram
 ```
 
 ### APIs / Actions
-* `GET /api/dashboard/stats` — Org aggregate stats (users, activity, avg risk)
-* `GET /api/dashboard/events` — Paginated, filterable activity log
-* `POST /api/dashboard/team/invite` — Invite user
-* `DELETE /api/dashboard/team/:userId` — Remove user
+* `GET /api/dashboard/stats` â€” Org aggregate stats (users, activity, avg risk)
+* `GET /api/dashboard/events` â€” Paginated, filterable activity log
+* `POST /api/dashboard/team/invite` â€” Invite user
+* `DELETE /api/dashboard/team/:userId` â€” Remove user
 
 ---
 
