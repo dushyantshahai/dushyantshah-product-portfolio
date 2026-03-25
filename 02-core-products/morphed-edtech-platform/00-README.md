@@ -1,9 +1,11 @@
- * Repo: Dushyant Shah Product Portfolio
+/*
+ * Project: Dushyant Shah Product Portfolio
  * Author: Dushyant Shah
  * GitHub: https://github.com/dushyantshahai
  *
  * This code is part of a public portfolio and is not licensed for reuse.
  * © 2026 Dushyant Shah
+ */
 ---
 # MorphEd — AI-Powered Assessment Platform
 
