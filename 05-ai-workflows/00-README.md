@@ -1,3 +1,9 @@
+ * Project: Dushyant Shah Product Portfolio
+ * Author: Dushyant Shah
+ * GitHub: https://github.com/dushyantshahai
+ * This code is part of a public portfolio and is not licensed for reuse.
+ * © 2026 Dushyant Shah
+---
 # AI Workflows
 
 Reusable Claude skill prompts built for common PM workflows. Each skill is a structured prompt template that produces consistent, high-quality outputs for a specific product management task.
