@@ -1,3 +1,9 @@
+ * Project: Dushyant Shah Product Portfolio
+ * Author: Dushyant Shah
+ * GitHub: https://github.com/dushyantshahai
+ * This code is part of a public portfolio and is not licensed for reuse.
+ * © 2026 Dushyant Shah
+---
 # Campus Adoption Loops: Activation and Incentive Mechanics for B2B EdTech
 
 *How MorphEd's top-down onboarding model drives fast institute-wide activation — and what incentive structures accelerate time-to-full adoption.*
