@@ -1,3 +1,9 @@
+ * Project: Dushyant Shah Product Portfolio
+ * Author: Dushyant Shah
+ * GitHub: https://github.com/dushyantshahai
+ * This code is part of a public portfolio and is not licensed for reuse.
+ * © 2026 Dushyant Shah
+---
 # EdTech GTM Strategy: Selling to Indian Institutions
 
 *A go-to-market framework for EdTech products targeting Indian colleges and coaching institutes — written from the experience of building and distributing MorphEd.*
