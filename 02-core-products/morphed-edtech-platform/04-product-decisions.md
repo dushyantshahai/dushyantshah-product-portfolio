@@ -1,3 +1,9 @@
+ * Repo: Dushyant Shah Product Portfolio
+ * Author: Dushyant Shah
+ * GitHub: https://github.com/dushyantshahai
+ * This code is part of a public portfolio and is not licensed for reuse.
+ * © 2026 Dushyant Shah
+---
 # Product Decisions — MorphEd
 
 A record of the key technical and product choices made while building MorphEd — what was decided, why, and what we were trying to avoid.
