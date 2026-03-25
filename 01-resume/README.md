@@ -36,8 +36,15 @@ Owned end-to-end development of MorphEd from ideation to MVP launch. Leveraging 
 
 ## Work Experience
 
+### Product Consultant (AI Products) — Quantiphi Analytics
+*Jan 2026 - Present*
+
+- Lead product GTM conversations to enable 2x deal closures.
+- Build and manage product content supporting GTM teams in product marketing and sales.
+- Liaison between GTM teams and technical teams on AI agent scope, project initiation, agent testing and launch to end clients.
+
 ### Senior Product Manager (AI Products) — Quantiphi Analytics
-*Aug 2025 – Present*
+*Aug 2025 – Jan 2026*
 
 - Built and launched 3 AI agents using advanced prompt engineering and drove 40% increase in AI product engagement through growth initiatives spanning acquisition, activation, and retention — collaborating with ML and engineering leads on roadmap execution.
 - Owned and executed quarterly product roadmap in collaboration with ML, engineering, and design leads — prioritising AI-first features based on user feedback, product metrics, and high-impact growth opportunities.
