@@ -37,7 +37,8 @@ Owned end-to-end development of MorphEd from ideation to MVP launch. Leveraging 
 
 Built and deployed RemindMe end-to-end — a consumer AI reminder app that replaces form-based creation with a conversational setup flow. Using a dual-LLM pipeline (Gemini 2.5 Flash + Claude 3 Haiku fallback), think-step prompting, and a custom ConversationManager state machine, the assistant gathers context through natural dialogue — auto-extracting structured reminder metadata including theme tags, urgency classification, and time resolution. Deployed on Vercel with Google OAuth, PostgreSQL, and Firebase push notifications.
 
-→ [Full case study](../02-core-products/ai-conversational-reminder-platform/) · [AI architecture](../02-core-products/ai-conversational-reminder-platform/02-ai-architecture.md) · [Product decisions](../02-core-products/ai-conversational-reminder-platform/05-product-decisions.md)
+→ [Full case study](../02-core-products/ai-conversational-reminder-platform) · [AI architecture](../02-core-products/ai-conversational-reminder-platform/02-ai-architecture.md) · [Product decisions](../02-core-products/ai-conversational-reminder-platform/05-product-decisions.md)
+
 ---
 
 ## Work Experience
