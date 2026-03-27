@@ -1,0 +1,17 @@
+# RemindMe Product Decisions
+
+RemindMe's architecture reflects six deliberate product and technical choices made during the MVP build, each balancing speed-to-market against long-term product quality.
+
+## Key Decisions
+
+**Conversation-First Over Form-First:** The core UX bet of RemindMe is replacing date/time/title fields with a natural language conversation. This adds AI infrastructure complexity but eliminates the single biggest friction point in reminder creation — context-switching from thinking about a task to operating a form UI. The trade-off accepted: a broken or slow LLM call degrades the creation experience more severely than a lagging form field would. This was mitigated by the dual-LLM fallback and conservative 5-turn hard cap to prevent unbounded conversations.
+
+**Dual-LLM with Automatic Fallback (Gemini Primary, Claude Secondary):** Rather than committing to a single model, RemindMe routes all LLM calls through a `runWithFallback` wrapper: Gemini 2.5 Flash handles the primary call; Claude 3 Haiku catches failures. This was chosen over a single-model architecture after empirical testing showed each model's failure modes differ — Gemini occasionally returns malformed JSON under load, while Claude is more conservative about time inference. The dual-model approach reduces p99 failure rates without adding a queueing system or retry infrastructure.
+
+**Think-Step Prompting Over Template-Based Dialogue:** Rather than scripting fixed question templates per reminder type, the assistant generates entirely free-form responses by reasoning silently through a structured think-step before producing output. This produces more natural, contextually appropriate responses — the assistant can propose a specific time rather than asking an open-ended question, or recognize that a movie ticket reminder needs to fire *before* the show date rather than *on* it. The trade-off: responses are harder to unit-test and output quality is model-dependent.
+
+**Google OAuth Only for V1:** The authentication layer supports only Google OAuth, deliberately excluding email/password sign-up. This eliminates password hashing, reset flows, and email verification infrastructure from the V1 scope. The trade-off is user acquisition friction for anyone without a Google account — accepted because the primary target demographic (urban Indian professionals with smartphones) has near-universal Google account penetration.
+
+**Firebase Cloud Messaging for Push Notifications:** FCM was selected over alternatives (OneSignal, AWS SNS, Web Push directly) for its free tier generosity, first-party browser support for Web Push, and tight integration with the Firebase Admin SDK already pulled in for auth context. The trade-off: FCM token management adds complexity — tokens must be registered per device and rotated, handled via the `fcm_tokens` array on the User model.
+
+**PostgreSQL Over MongoDB for Context Storage:** Reminder context key-value pairs are stored in a relational `ReminderContext` table with a `unique(reminder_id, key)` constraint, rather than as a JSON blob in a document store. This choice enables clean per-key querying and future analytics on context patterns (e.g., "what percentage of reminders have a location?") without schema migration. The trade-off: slightly more rigid schema for a data shape that is inherently variable — mitigated by the key-value design, which is schema-flexible while still being relational.
