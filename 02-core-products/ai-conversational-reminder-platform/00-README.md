@@ -1,4 +1,4 @@
-# RemindMe — AI Conversational Reminder Platform
+# RemindMe — AI Conversational Reminder Platform (https://remindme-mvp.vercel.app/)
 
 **Overview:**
 RemindMe is a consumer-facing AI reminder app that replaces traditional form-based reminder creation with a natural, conversational setup flow. Instead of filling in fields for title, date, time, and notes, users simply type what they need to remember — and an AI assistant asks the right follow-up questions to fill in the gaps, automatically enriching each reminder with structured context, theme tags, and urgency classifications.
