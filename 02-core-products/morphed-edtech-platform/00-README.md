@@ -1,9 +1,3 @@
- * Repo: Dushyant Shah Product Portfolio
- * Author: Dushyant Shah
- * GitHub: https://github.com/dushyantshahai
- * This code is part of a public portfolio and is not licensed for reuse.
- * © 2026 Dushyant Shah
----
 # MorphEd — AI-Powered Assessment Platform (https://aaas-platform-frontend.vercel.app/)
 
 A B2B SaaS platform that automates MCQ assessment generation for Indian educational institutes using RAG-based AI. Built end-to-end: problem framing, AI architecture, user research, and go-to-market.
