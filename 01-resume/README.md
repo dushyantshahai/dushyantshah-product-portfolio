@@ -1,6 +1,6 @@
 # Dushyant Shah — Product Manager
 
-**AI Products & Growth | B2B SaaS | Cross-Functional Execution**
+**Senior Product Manager - AI Products, AI Agents & Growth | Enterprise B2B SaaS**
 MBA (Marketing) — Jamnalal Bajaj Institute of Management Studies (JBIMS)
 
 📧 dushyant8shah@gmail.com · 📞 +91-9619369240 · [LinkedIn](https://www.linkedin.com/in/dushyantshahpm/) · [GitHub](https://github.com/dushyantshahai/dushyantshah-product-portfolio) · 📍 Mumbai, India
