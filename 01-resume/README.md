@@ -9,15 +9,17 @@ MBA (Marketing) — Jamnalal Bajaj Institute of Management Studies (JBIMS)
 
 ## Professional Summary
 
-Senior Product Manager with 7+ years of experience including ~2.5 years of dedicated AI product management, specialising in AI-first SaaS product development, roadmap ownership, and end-to-end product delivery. Demonstrated track record of shipping GenAI-powered features — 40% product engagement growth, 229% app adoption, and 22% YoY portfolio retention. Backed by direct experience building AI agents, LLM-integrated workflows, and B2B SaaS platforms grounded in continuous user research and fast iteration cycles. Health-tech exposure through Onsurity (a regulated health-benefits platform), with strong cross-functional execution across ML, engineering, and design.
+AI-first Product Manager with 7+ years of experience building and scaling intelligent enterprise SaaS products, including ~2.5 years specializing in LLMs, AI agents, and automation-driven workflows. Proven track record of delivering 0→1 AI products and scaling adoption through product-led growth and experimentation. Hands-on builder and strategic operator with experience across RAG systems, multi-LLM pipelines, and conversational AI, combined with strong CXO engagement, GTM enablement, and cross functional execution. Demonstrated impact includes 40% engagement growth, 229% adoption increase, ₹7Cr+ revenue impact, and 60%+ demo-to-pilot conversion.
 
 ---
 
 ## Skills & Tools
 
-**Product:** AI-First Product Development · Product Roadmap & Strategy · End-to-End SaaS Delivery · Growth Initiatives · User Research · A/B Testing · Funnel Optimisation · KPI Definition & Tracking · Product Analytics · B2B SaaS
+**AI & Technical:** LLMs (Claude, Claude Code, Gemini, ChatGPT, GitHub Copilot) · AI Agents · RAG Systems · Prompt Engineering · Conversational AI · Workflow Automation · AI Experimentation · API & System Design Thinking · System Design · System Architecture · Data Pipelines · Gemini CLI · AI Agent Evals
 
-**Technical:** Advanced Prompt Engineering · LLM Integration · AI Agent Development · Claude · Claude Code · SQL · Jira · Figma · Power BI · Miro · MS & Google Suites
+**Product Management:** 0→1 Product Development · Product Strategy & Roadmaps · Product Discovery · Agile Execution · KPI Definition · User Research · Cross Functional Coordination · Jira · Figma · Claude Code · Miro · Manus · System Design · Low Code & No Code Tools · Wireframe Design · PRD Writing 
+
+**Growth & Analytics:** A/B Testing · Funnel Optimization · Product Analytics · Adoption & Retention Strategy · Data-Driven Decision Making · Power BI · Looker Studio
 
 **Leadership:** Cross-Functional Stakeholder Leadership · Team Management · Global CXO Engagement · Agile Execution
 
@@ -46,9 +48,10 @@ Built and deployed RemindMe end-to-end — a consumer AI reminder app that repla
 ### Product Consultant (AI Products) — Quantiphi Analytics
 *Jan 2026 - Present*
 
-- Lead product GTM conversations to enable 2x deal closures.
-- Build and manage product content supporting GTM teams in product marketing and sales.
-- Liaison between GTM teams and technical teams on AI agent scope, project initiation, agent testing and launch to end clients.
+- Define and drive AI product strategy and GTM pitch for enterprise clients, contributing to 2x improvement in deal closures
+- Lead end-to-end delivery of AI agent-based solutions, aligning engineering, ML, and GTM teams from scoping to production launch
+- Translate enterprise constraints (compliance, deployment, workflows) into scalable AI product architectures and execution plans
+- Partner with CXOs to map AI capabilities to business outcomes, improving adoption and deployment success
 
 ### Senior Product Manager (AI Products) — Quantiphi Analytics
 *Aug 2025 – Jan 2026*
